@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\GlobalHelper;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -35,13 +36,23 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->file('images'));
+        // if(isset($request->image)){
+        //     dd("work");
+
+        // }
+        // else
+        // {
+        //     dd("dont-work");
+        // }
+
+
         $request->validate([
             'name' => 'required | unique:products,name',
             'category_id' => 'required',
             'slug' => 'required',
             'price' => 'required',
             'qty' => 'required',
-            'image' => 'required'
         ]);
 
         $product = new Product();
@@ -50,12 +61,18 @@ class ProductController extends Controller
         $product->slug = $request->slug;
         $product->description = $request->description;
         $product->price = $request->price;
-        if($request->hasFile('image')){
-           $product->image = GlobalHelper::crm_upload_img($request->file('image'), 'products');
-        }
         $product->qty = $request->qty;
         $product->status = $request->status ? 1 : 0 ?? 0;
         $product->save();
+
+        if(isset($request->images)){
+            foreach($request->file('images') as $imagefile) {
+                $productimage['image'] = GlobalHelper::crm_upload_img( $imagefile, 'products');
+                $productimage['prod_id'] = $product->id;
+                ProductImage::create($productimage);
+
+            }
+        }
 
         Alert::success('Success', "Product created Successfully");
         return redirect()->route('product.index');
@@ -101,18 +118,22 @@ class ProductController extends Controller
         $input['description'] = $request->description;
         $input['qty'] = $request->qty;
         $input['status'] = $request->status ? 1 : 0 ?? 0;
-        if($request->hasFile('image')){
-            $old_image = $product->image;
-            if(asset($old_image))
-            {
-                GlobalHelper::delete_img($old_image,'products');
-                $input['image'] = GlobalHelper::crm_upload_img($request->file('image'), 'products');
-            }
-            else{
-                $input['image'] = GlobalHelper::crm_upload_img($request->file('image'), 'products');
-            }
-        }
         $product->update($input);
+        if($request->hasFile('images')){
+            $old_image = ProductImage::where('prod_id', $product->id)->get();
+                if(isset($old_image)){
+                    foreach($old_image as $item){
+                        $item->delete();
+                    }
+                }
+            foreach($request->file('images') as $imagefile) {
+                $prodimg['prod_id'] = $product->id;
+                $prodimg['image'] = GlobalHelper::crm_upload_img( $imagefile, 'products');
+                ProductImage::create($prodimg);
+            }
+
+        }
+
         Alert::success('Success', "Product updated Successfully");
         return redirect()->route('product.index');
     }
@@ -120,7 +141,7 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function delete($id)
     {
         Product::find($id)->delete();
         Alert::success('Success', "Product deleted Successfully");

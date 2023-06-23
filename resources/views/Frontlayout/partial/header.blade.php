@@ -158,7 +158,11 @@
 
                                             <figure class="product-image-container">
                                                 <a href="{{route('singleproduct', $item->product->slug)}}" class="product-image">
-                                                    <img src="{{asset('images/products')}}/{{$item->product->image}}" alt="product" width="80" height="80">
+                                                    @foreach ($item->product->prodimage as $img)
+                                                    @if ($loop->first)
+                                                        <img src="{{asset('images/products')}}/{{$img->image}}" width="80" height="80" alt="product" />
+                                                    @endif
+                                                    @endforeach
                                                 </a>
 
                                                 <a href="#" id="{{$item->prod_id}}" class="btn-remove deleteCartItem" title="Remove Product"><span>×</span></a>

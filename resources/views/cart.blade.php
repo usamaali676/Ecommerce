@@ -35,7 +35,11 @@
                                 <td>
                                     <figure class="product-image-container">
                                         <a href="{{route('singleproduct', $item->product->slug)}}" class="product-image">
-                                            <img src="{{asset('images/products')}}/{{$item->product->image}}" alt="product">
+                                            @foreach ($item->product->prodimage as $img)
+                                                @if ($loop->first)
+                                                    <img src="{{asset('images/products')}}/{{$img->image}}" width="80" height="80" alt="product" />
+                                                @endif
+                                            @endforeach
                                         </a>
 
                                             <input id="prod_id" type="hidden" value="{{$item->prod_id}}" name="prod_id">

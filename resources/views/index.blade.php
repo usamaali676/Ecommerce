@@ -230,7 +230,11 @@
                 <div class="product-default inner-quickview inner-icon appear-animate" data-animation-name="fadeInUpShorter" data-animation-delay="200" data-animation-duration="1000">
                     <figure class="img-effect">
                         <a href="{{route('singleproduct', $item->slug)}}">
-                            <img src="{{asset('images/products')}}/{{$item->image}}" width="265" height="265" alt="product" />
+                            @foreach ($item->prodimage as $img)
+                            @if ($loop->iteration >= 2)
+                                <img src="{{asset('images/products')}}/{{$img->image}}" width="265" height="265" alt="product" />
+                            @endif
+                            @endforeach
                             {{-- <img src="{{asset('assets/images/demoes/demo2/products/product-1-2.jpg')}}" width="265" height="265" alt="product" /> --}}
                         </a>
                         {{-- <div class="label-group">

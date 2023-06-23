@@ -109,7 +109,11 @@
                             <div class="product-default">
                                 <figure>
                                     <a href="{{route('singleproduct', $item->slug)}}">
-                                        <img src="{{asset('images/products')}}/{{$item->image}}" width="280" height="280" alt="product" style="width: 280px; height: 280px;"/>
+                                        @foreach ($item->prodimage as $img)
+                                        @if ($loop->iteration >= 2)
+                                            <img src="{{asset('images/products')}}/{{$img->image}}" width="265" height="265" alt="product" />
+                                        @endif
+                                        @endforeach
                                     </a>
 
                                 </figure>

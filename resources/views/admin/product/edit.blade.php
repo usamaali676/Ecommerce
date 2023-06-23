@@ -59,7 +59,7 @@
                     </div>
                     <div class="col-12">
                         <label for="image" class="form-label">Image</label>
-                        <input class="form-control" name="image" type="file" id="formFile">                        </div>
+                        <input class="form-control" name="images[]" type="file" id="formFile" multiple="multiple">                        </div>
                     <div class="col-12">
                         <label for="description" class="form-label">Description</label>
                         <textarea name="description" class="ckeditor form-control" id="editor" >{!! $product->description !!}</textarea>

@@ -24,34 +24,27 @@
                         <!---->
                     </div>
 
-                    <div class="product-single-carousel owl-carousel owl-theme show-nav-hover">
-                        <div class="product-item">
-                            <img class="product-single-image" src="{{asset('images/products')}}/{{$product->image}}" data-zoom-image="assets/images/products/zoom/product-1-big.jpg" width="468" height="468" alt="product" />
+                        <div class="product-single-carousel owl-carousel owl-theme show-nav-hover">
+                            @foreach ($product->prodimage as $img)
+                                    <div class="product-item">
+                                            <img class="product-single-image" src="{{asset('images/products')}}/{{$img->image}}" data-zoom-image="assets/images/products/zoom/product-1-big.jpg" width="468" height="468" alt="product" />
+                                    </div>
+                            @endforeach
                         </div>
-                    </div>
+
                     <!-- End .product-single-carousel -->
                     <span class="prod-full-screen">
                         <i class="icon-plus"></i>
                     </span>
                 </div>
 
-                {{-- <div class="prod-thumbnail owl-dots">
-                    <div class="owl-dot">
-                        <img src="{{asset('images/products')}}/{{$product->image}}" width="110" height="110" alt="product-thumbnail" />
-                    </div>
-                    <div class="owl-dot">
-                        <img src="{{asset('images/products')}}/{{$product->image}}" width="110" height="110" alt="product-thumbnail" />
-                    </div>
-                    <div class="owl-dot">
-                        <img src="{{asset('images/products')}}/{{$product->image}}" width="110" height="110" alt="product-thumbnail" />
-                    </div>
-                    <div class="owl-dot">
-                        <img src="{{asset('images/products')}}/{{$product->image}}" width="110" height="110" alt="product-thumbnail" />
-                    </div>
-                    <div class="owl-dot">
-                        <img src="{{asset('images/products')}}/{{$product->image}}" width="110" height="110" alt="product-thumbnail" />
-                    </div>
-                </div> --}}
+                <div class="prod-thumbnail owl-dots">
+                    @foreach ($product->prodimage as $img)
+                        <div class="owl-dot">
+                            <img src="{{asset('images/products')}}/{{$img->image}}" width="110" height="110" alt="product-thumbnail" />
+                        </div>
+                    @endforeach
+                </div>
             </div>
             <!-- End .product-single-gallery -->
 
@@ -314,7 +307,11 @@
             <div class="product-default inner-quickview inner-icon appear-animate" data-animation-name="fadeInUpShorter" data-animation-delay="200" data-animation-duration="1000">
                 <figure class="img-effect">
                     <a href="{{route('singleproduct', $item->slug)}}">
-                        <img src="{{asset('images/products')}}/{{$item->image}}" width="265" height="265" alt="product" />
+                        @foreach ($item->prodimage as $img)
+                        @if ($loop->iteration >= 2)
+                            <img src="{{asset('images/products')}}/{{$img->image}}" width="265" height="265" alt="product" />
+                        @endif
+                        @endforeach
                         {{-- <img src="{{asset('assets/images/demoes/demo2/products/product-1-2.jpg')}}" width="265" height="265" alt="product" /> --}}
                     </a>
                     <div class="label-group">
