@@ -109,7 +109,13 @@
                                             <td>{{$item->products->name}}</td>
                                             <td>{{$item->qty}}</td>
                                             <td>${{$item->price}}</td>
-                                            <td><img src="{{asset('images/products')}}/{{$item->products->image}}" style="width: 100px" alt=""></td>
+                                            <td>
+                                                @foreach ($item->products->prodimage as $img)
+                                                    @if ($loop->first)
+                                                        <img src="{{asset('images/products')}}/{{$img->image}}" width="100px"  alt="product" />
+                                                    @endif
+                                                @endforeach
+                                            </td>
                                         </tr>
                                     @endforeach
 

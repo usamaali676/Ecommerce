@@ -61,8 +61,11 @@
             <div class="card">
               <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-                <img src="{{asset('images/products')}}/{{$product->image}}" alt="Profile" >
-              </div>
+                @foreach ($product->prodimage as $img)
+                @if ($loop->first)
+                    <img src="{{asset('images/products')}}/{{$img->image}}" width="265" height="265" alt="product" />
+                @endif
+                @endforeach              </div>
             </div>
 
           </div>

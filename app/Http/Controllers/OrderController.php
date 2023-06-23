@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use Srmklive\PayPal\Services\ExpressCheckout;
 use Srmklive\PayPal\Facades\PayPal;
-use Symfony\Component\Console\Input\Input;
+
 
 class OrderController extends Controller
 {
@@ -20,25 +20,6 @@ class OrderController extends Controller
      */
     public function placeorder(Request $request)
     {
-
-        $data = [];
-        $data['items'] = [];
-        $data['invoice_description'] = $request->notes;
-        $data['invoice_id'] = 1;
-
-        $data['return_url'] = route('order.payment.success');
-        $data['cancel_url'] = route('order.payment.cancel');
-        $data['total'] = $request->total_price;
-
-
-        $provider = new ExpressCheckout();
-        $response = $provider->setExpressCheckout($data);
-        $response = $provider->setExpressCheckout($data, true);
-
-
-        return redirect($response['paypal_link']);
-
-        // dd($request->all());
         $request->validate([
             'fname' => 'required',
             'lname' => 'required',
@@ -84,10 +65,28 @@ class OrderController extends Controller
         }
         $cartitem = Cart::where('user_id', Auth::user()->id)->get();
         Cart::destroy($cartitem);
+
+        $data = [];
+        $data['items'] = [];
+        $data['invoice_description'] = "Insha Trading";
+        $data['invoice_id'] = $order->id;
+
+        $data['return_url'] = route('order.payment.success');
+        $data['cancel_url'] = route('order.payment.cancel');
+        $data['total'] = $request->total_price;
+
+
+        $provider = new ExpressCheckout();
+        $response = $provider->setExpressCheckout($data);
+        $response = $provider->setExpressCheckout($data, true);
+
+        return redirect($response['paypal_link']);
+
+        // dd($request->all());
+
         Alert::success('Success', "Order Placed Successfully");
         return redirect()->route('fronthome');
     }
-
     public function index()
     {
         $order = Order::all();
@@ -102,13 +101,40 @@ class OrderController extends Controller
     {
         return view('admin.order.create');
     }
-    public function payment_success(){
+    public function payment_success(Request $request)
+    {
+        // Retrieve the payment status and other relevant data from the PayPal response
+        $token = $request->get('token');
+        $payerId = $request->get('PayerID');
 
-        Alert::success('Success', "Order Placed Successfully");
-        return redirect()->route('fronthome');
+        // Create an instance of the PayPal ExpressCheckout service
+        $provider = new ExpressCheckout();
+
+        // Get the details of the payment using the token
+        $paymentDetails = $provider->getExpressCheckoutDetails($token);
+
+        // Check if the payment was successful
+        if ($paymentDetails['ACK'] === 'Success') {
+            // Update the order status to indicate successful payment
+            $orderId = $paymentDetails['INVNUM']; // Assuming you have an invoice number stored in INVNUM
+
+             $order = Order::where('id', $orderId)->first();
+            if ($order) {
+                $order->status = 1; // Set the status to 1 for successful payment
+                $order->update();
+            }
+
+            Alert::success('Success', "Order Placed Successfully");
+            return redirect()->route('fronthome');
+        } else {
+            // Handle the case when payment was not successful
+            // You can redirect to an error page or take appropriate actions
+            Alert::error('Error', "Payment Failed");
+            return redirect()->route('order.payment.cancel');
+        }
     }
     public function payment_cancel(){
-        Alert::error('OOps', "Order Placed Successfully");
+        Alert::error('OOps', "order placing field");
         return redirect()->route('fronthome');
     }
 

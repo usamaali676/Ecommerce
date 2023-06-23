@@ -128,7 +128,14 @@
                                 <td>{{$item->products->name}}</td>
                                 <td>{{$item->qty}}</td>
                                 <td>${{$item->price}}</td>
-                                <td><img src="{{asset('images/products')}}/{{$item->products->image}}" style="width: 100px" alt=""></td>
+                                <td>
+                                    @foreach ($item->products->prodimage as $img)
+                                    @if ($loop->first >= 2)
+                                        <img src="{{asset('images/products')}}/{{$img->image}}" width="100px"  alt="product" />
+                                    @endif
+                                    @endforeach
+                                    {{-- <img src="{{asset('images/products')}}/{{$item->products->image}}" style="width: 100px" alt=""> --}}
+                                </td>
                                 <td>
                                     <a href="{{route('orderitem.edit',$item->id)}}" type="button" class="btn btn-warning" style="color: #fff"><i class="bx bxs-pencil"></i></a>
                                     <a onclick="return confirm('Are you sure?');" href="{{route('orderitem.delete',$item->id)}}"  type="button" class="btn btn-danger"><i class="bx bx-trash"></i></a>
