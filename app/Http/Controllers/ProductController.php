@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\GlobalHelper;
 use App\Models\Category;
+use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
@@ -143,8 +144,16 @@ class ProductController extends Controller
      */
     public function delete($id)
     {
-        Product::find($id)->delete();
-        Alert::success('Success', "Product deleted Successfully");
-        return redirect()->route('product.index');
+        $order_item = OrderItem::where('prod_id', $id)->get();
+        if($order_item->count() > 0)
+        {
+            Alert::error('OOps', "Please Remove the Related OrderS");
+            return redirect()->route('product.index');
+        }
+        else{
+            Product::find($id)->delete();
+            Alert::success('Success', "Product deleted Successfully");
+            return redirect()->route('product.index');
+        }
     }
 }
