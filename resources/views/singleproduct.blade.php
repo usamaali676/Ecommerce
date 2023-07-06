@@ -51,18 +51,35 @@
             <div class="col-lg-7 col-md-6 product-single-details">
                 <h1 class="product-title">{{$product->name}}</h1>
 
+                @php
+                    $starstotal = $averageRating * 20 ;
+                @endphp
 
+
+                @if ($averageRating != 0)
                 <div class="ratings-container">
                     <div class="product-ratings">
-                        <span class="ratings" style="width:60%"></span>
+                        <span class="ratings" style="width:
+                        {{$starstotal}}%"></span>
                         <!-- End .ratings -->
                         <span class="tooltiptext tooltip-top"></span>
                     </div>
                     <!-- End .product-ratings -->
 
-                    <a href="#" class="rating-link">( 6 Reviews )</a>
+                    <a href="#" class="rating-link">( {{$averageRating}} Reviews )</a>
                 </div>
                 <!-- End .ratings-container -->
+
+                @else
+
+                <div class="ratings-container">
+                    <!-- End .product-ratings -->
+
+                    <a href="#" class="rating-link">( No Reviews )</a>
+                </div>
+
+                @endif
+
 
                 <hr class="short-divider">
 
@@ -163,7 +180,7 @@
 
             <li class="nav-item">
                 <a class="nav-link" id="product-tab-reviews" data-toggle="tab" href="#product-reviews-content" role="tab" aria-controls="product-reviews-content" aria-selected="false">Reviews
-                    (1)</a>
+                    ({{$product->reviews->count()}})</a>
             </li>
         </ul>
 

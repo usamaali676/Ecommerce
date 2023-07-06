@@ -18,7 +18,7 @@
                                     456-7890</a>
                             </li>
                             <li>
-                                <span class="contact-info-label">Email:</span> <a href="/cdn-cgi/l/email-protection#fd909c9491bd98859c908d9198d39e9290"><span class="__cf_email__" data-cfemail="c2afa3abae82a7baa3afb2aea7eca1adaf">[email&#160;protected]</span></a>
+                                <span class="contact-info-label">Email:</span> <a href="mailto:info@domain.com"><span class="__cf_email__" >info@domain.com</span></a>
                             </li>
                             <li>
                                 <span class="contact-info-label">Working Days/Hours:</span> Mon - Sun / 9:00 AM - 8:00 PM
@@ -64,8 +64,8 @@
 
                                 <div class="links link-parts row">
                                     <ul class="link-part col-lg-6 col-md-12 mb-0">
-                                        <li><a href="#">About us</a></li>
-                                        <li><a href="#">Contact us</a></li>
+                                        <li><a href="{{route('about')}}">About us</a></li>
+                                        <li><a href="{{route('contact')}}">Contact us</a></li>
                                         <li><a href="{{route('login')}}">My account</a></li>
                                     </ul>
                                     <ul class="link-part col-lg-6 col-md-12">
@@ -85,14 +85,14 @@
 
                                 <div class="links link-parts row">
                                     <ul class="link-part col-lg-6 col-md-12 mb-0">
-                                        <li><a href="#">Super Fast Html Template</a></li>
-                                        <li><a href="#">1st Fully working Ajax Theme</a></li>
-                                        <li><a href="#">36 Unique Shop Layouts</a></li>
+                                        <li><a href="#">Privacy Policy</a></li>
+                                        <li><a href="#">Terms & Conditions</a></li>
+                                        <li><a href="#">Return Policy</a></li>
                                     </ul>
-                                    <ul class="link-part col-lg-6 col-md-12">
+                                    {{-- <ul class="link-part col-lg-6 col-md-12">
                                         <li><a href="#">Powerful Admin Panel</a></li>
                                         <li><a href="#">Mobile & Retina Optimized</a></li>
-                                    </ul>
+                                    </ul> --}}
                                 </div>
                             </div>
                             <!-- End .widget -->

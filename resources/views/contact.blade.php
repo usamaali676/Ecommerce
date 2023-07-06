@@ -59,7 +59,7 @@
                         <i class="far fa-envelope"></i>
                         <div class="feature-box-content">
                             <h3>E-mail Address</h3>
-                            <h5><a href="mailto:Example@example.com" style="color: #777">Example@example.com
+                            <h5><a href="mailto:info@domain.com" style="color: #777">info@domain.com
                                     </a>
                             </h5>
                         </div>

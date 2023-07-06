@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Reviews;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\FlareClient\View;
@@ -60,11 +61,15 @@ class DashboardController extends Controller
     }
     public function singleproduct($slug){
         $product = Product::where('slug', $slug)->with('reviews')->first();
+        $averageRating = Reviews::where('prod_id', $product->id)
+        ->selectRaw('SUM(stars)/COUNT(user_id) AS avg_rating')
+        ->first()
+        ->avg_rating;
         // dd($product);
         if(isset($product)){
         $relatedprod = Product::where('category_id', $product->category_id)->get();
         }
-        return view('singleproduct', compact('product','relatedprod'));
+        return view('singleproduct', compact('product','relatedprod', 'averageRating'));
     }
 
 }
