@@ -59,7 +59,7 @@ class ProductController extends Controller
         $product = new Product();
         $product->name = $request->name;
         $product->category_id = $request->category_id;
-        $product->slug = $request->slug;
+        $product->slug = preg_replace('/\s+/', '-', $request->slug);
         $product->description = $request->description;
         $product->price = $request->price;
         $product->qty = $request->qty;
@@ -114,19 +114,19 @@ class ProductController extends Controller
         $product = Product::find($id);
         $input['name'] = $request->name;
         $input['category_id	'] = $request->category_id;
-        $input['slug'] = $request->slug;
+        $input['slug'] =  preg_replace('/\s+/', '-', $request->slug);
         $input['price'] = $request->price;
         $input['description'] = $request->description;
         $input['qty'] = $request->qty;
         $input['status'] = $request->status ? 1 : 0 ?? 0;
         $product->update($input);
         if($request->hasFile('images')){
-            $old_image = ProductImage::where('prod_id', $product->id)->get();
-                if(isset($old_image)){
-                    foreach($old_image as $item){
-                        $item->delete();
-                    }
-                }
+            // $old_image = ProductImage::where('prod_id', $product->id)->get();
+            //     if(isset($old_image)){
+            //         foreach($old_image as $item){
+            //             $item->delete();
+            //         }
+            //     }
             foreach($request->file('images') as $imagefile) {
                 $prodimg['prod_id'] = $product->id;
                 $prodimg['image'] = GlobalHelper::crm_upload_img( $imagefile, 'products');
@@ -155,5 +155,14 @@ class ProductController extends Controller
             Alert::success('Success', "Product deleted Successfully");
             return redirect()->route('product.index');
         }
+    }
+
+    public function deleteimage($id)
+    {
+        $prodimage = ProductImage::where('id',$id)->first();
+        GlobalHelper::delete_img($prodimage->image , 'products');
+        $prodimage->delete();
+        Alert::success('Success', "Product Image Removed Successfully!");
+        return redirect()->back();
     }
 }

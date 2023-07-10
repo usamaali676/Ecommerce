@@ -80,7 +80,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::controller(RoleController::class)->prefix('role')->as('role.')->middleware('role')->group(function () {
+Route::controller(RoleController::class)->prefix('role')->as('role.')->middleware('role', 'auth')->group(function () {
     Route::get('/index', 'index')->name('index');
     Route::get('/create', 'create')->name('create');
     Route::post('/store', 'store')->name('store');
@@ -89,7 +89,7 @@ Route::controller(RoleController::class)->prefix('role')->as('role.')->middlewar
     Route::get('/delete/{id}', 'delete')->name('delete');
     });
 
-Route::controller(UserController::class)->prefix('user')->as('user.')->group(function () {
+Route::controller(UserController::class)->prefix('user')->as('user.')->middleware('auth')->group(function () {
     Route::get('/index', 'index')->name('index')->middleware('role');
     Route::get('/create', 'create')->name('create')->middleware('role');
     Route::post('/store', 'store')->name('store')->middleware('role');
@@ -99,7 +99,7 @@ Route::controller(UserController::class)->prefix('user')->as('user.')->group(fun
     Route::get('/show/{id}', 'show')->name('show');
     });
 
-    Route::controller(CategoryController::class)->prefix('category')->as('category.')->group(function () {
+    Route::controller(CategoryController::class)->prefix('category')->as('category.')->middleware('auth')->group(function () {
         Route::get('/index', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::post('/store', 'store')->name('store');
@@ -108,7 +108,7 @@ Route::controller(UserController::class)->prefix('user')->as('user.')->group(fun
         Route::get('/delete/{id}', 'delete')->name('delete')->middleware('role');
         });
 
-    Route::controller(ProductController::class)->prefix('product')->as('product.')->group(function () {
+    Route::controller(ProductController::class)->prefix('product')->as('product.')->middleware('auth')->group(function () {
         Route::get('/index', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::post('/store', 'store')->name('store');
@@ -116,4 +116,10 @@ Route::controller(UserController::class)->prefix('user')->as('user.')->group(fun
         Route::post('/update/{id}', 'update')->name('update');
         Route::get('/delete/{id}', 'delete')->name('delete')->middleware('role');
         Route::get('/show/{id}', 'show')->name('show');
+        Route::get('/deleteImage/{id}' , 'deleteimage')->name('deleteimage');
         });
+
+
+
+
+

@@ -59,7 +59,12 @@
                     </div>
                     <div class="col-12">
                         <label for="image" class="form-label">Image</label>
-                        <input class="form-control" name="images[]" type="file" id="formFile" multiple="multiple">                        </div>
+                        @foreach ($product->prodimage as $item)
+                        <img src="{{asset('images/products')}}/{{$item->image}}" style="width: 100px; height: 100px" alt="">
+                        <a href="{{route('product.deleteimage', $item->id)}}"><span style=" position: relative; z-index: 1; left: -3%; top: -28%; padding: 2px 8px; background: #fff; border-radius: 50px; border: 1px solid #000;">x</span></a>
+                        @endforeach
+                        <br>
+                        <input class="form-control" name="images[]" type="file" id="formFile" multiple="multiple" style="margin-top: 20px">                        </div>
                     <div class="col-12">
                         <label for="description" class="form-label">Description</label>
                         <textarea name="description" class="ckeditor form-control" id="editor" >{!! $product->description !!}</textarea>

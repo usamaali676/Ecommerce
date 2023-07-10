@@ -127,14 +127,6 @@
 
                                     <h3 class="product-title"> <a href="{{route('singleproduct', $item->slug)}}">{{$item->name}}</a> </h3>
 
-                                    <div class="ratings-container">
-                                        <div class="product-ratings">
-                                            <span class="ratings" style="width:100%"></span>
-                                            <!-- End .ratings -->
-                                            <span class="tooltiptext tooltip-top"></span>
-                                        </div>
-                                        <!-- End .product-ratings -->
-                                    </div>
                                     <!-- End .product-container -->
 
                                     <div class="price-box">
