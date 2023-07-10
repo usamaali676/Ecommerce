@@ -40,7 +40,7 @@ class CategoryController extends Controller
         ]);
         Category::create([
             'name' => $request->name,
-            'slug' => $request->slug
+            'slug' => preg_replace('/\s+/', '-', $request->slug)
         ]);
         Alert::success('Success',"Category created successfully");
         return redirect()->route('category.index');
@@ -75,7 +75,7 @@ class CategoryController extends Controller
         $category = Category::find($id);
         $category->update([
             'name' => $request->name,
-            'slug' => $request->slug
+            'slug' => preg_replace('/\s+/', '-', $request->slug)
         ]);
         Alert::success('Success', "Category updated successfully");
         return redirect()->route('category.index');

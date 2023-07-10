@@ -83,9 +83,9 @@
                 <div class="header-icon mb-0 header-search header-search-inline header-search-category w-lg-max pl-3 pr-1">
                     <a href="#" class="search-toggle" role="button" title="Search"><i
                             class="icon-search-3"></i></a>
-                    <form action="#" method="get">
+                    <form action="{{route('search')}}" method="get">
                         <div class="header-search-wrapper">
-                            <input type="search" class="form-control bg-white" name="q" id="qq" placeholder="Search..." required>
+                            <input type="search" class="form-control bg-white" name="name" id="qq" placeholder="Search..." required>
                             <div class="select-custom bg-white">
                                 <select id="category" name="cat">
                                     <option value="">All Categories</option>

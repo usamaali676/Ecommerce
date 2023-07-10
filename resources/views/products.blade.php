@@ -104,50 +104,54 @@
                 </nav>
 
                 <div class="row">
-                    @foreach ($products as $item)
-                        <div class="col-6 col-sm-4">
-                            <div class="product-default">
-                                <figure>
-                                    <a href="{{route('singleproduct', $item->slug)}}">
-                                        @foreach ($item->prodimage as $img)
-                                        @if ($loop->iteration >= 2)
-                                            <img src="{{asset('images/products')}}/{{$img->image}}" width="265" height="265" alt="product" />
-                                        @endif
-                                        @endforeach
-                                    </a>
+                    @if ($products->count() > 0)
+                        @foreach ($products as $item)
+                            <div class="col-6 col-sm-4">
+                                <div class="product-default">
+                                    <figure>
+                                        <a href="{{route('singleproduct', $item->slug)}}">
+                                            @foreach ($item->prodimage as $img)
+                                            @if ($loop->iteration >= 2)
+                                                <img src="{{asset('images/products')}}/{{$img->image}}" alt="product" style="width: 300px; height: 300px;"/>
+                                            @endif
+                                            @endforeach
+                                        </a>
 
-                                </figure>
+                                    </figure>
 
-                                <div class="product-details">
-                                    <div class="category-wrap">
-                                        <div class="category-list">
-                                            <a href="{{route('categorysearch', $item->category->slug)}}" class="product-category">{{$item->category->name}}</a>
+                                    <div class="product-details">
+                                        <div class="category-wrap">
+                                            <div class="category-list">
+                                                <a href="{{route('categorysearch', $item->category->slug)}}" class="product-category">{{$item->category->name}}</a>
+                                            </div>
+                                        </div>
+
+                                        <h3 class="product-title"> <a href="{{route('singleproduct', $item->slug)}}">{{$item->name}}</a> </h3>
+
+                                        <!-- End .product-container -->
+
+                                        <div class="price-box">
+                                            {{-- <span class="old-price">$90.00</span> --}}
+                                            <span class="product-price">${{$item->price}}</span>
+                                        </div>
+                                        <!-- End .price-box -->
+
+                                        <div class="product-action">
+                                            {{-- <a href="wishlist.html" class="btn-icon-wish" title="wishlist"><i
+                                                    class="icon-heart"></i></a> --}}
+                                            <a href="{{route('singleproduct', $item->slug)}}" class="btn-icon btn-add-cart"><i
+                                                    class="fa fa-arrow-right"></i><span>Add to Cart</span></a>
+                                            {{-- <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View"><i class="fas fa-external-link-alt"></i></a> --}}
                                         </div>
                                     </div>
-
-                                    <h3 class="product-title"> <a href="{{route('singleproduct', $item->slug)}}">{{$item->name}}</a> </h3>
-
-                                    <!-- End .product-container -->
-
-                                    <div class="price-box">
-                                        {{-- <span class="old-price">$90.00</span> --}}
-                                        <span class="product-price">${{$item->price}}</span>
-                                    </div>
-                                    <!-- End .price-box -->
-
-                                    <div class="product-action">
-                                        {{-- <a href="wishlist.html" class="btn-icon-wish" title="wishlist"><i
-                                                class="icon-heart"></i></a> --}}
-                                        <a href="{{route('singleproduct', $item->slug)}}" class="btn-icon btn-add-cart"><i
-                                                class="fa fa-arrow-right"></i><span>Add to Cart</span></a>
-                                        {{-- <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View"><i class="fas fa-external-link-alt"></i></a> --}}
-                                    </div>
+                                    <!-- End .product-details -->
                                 </div>
-                                <!-- End .product-details -->
                             </div>
-                        </div>
-                        <!-- End .col-sm-4 -->
-                    @endforeach
+                            <!-- End .col-sm-4 -->
+                        @endforeach
+                    @else
+                    <h2>No Product Found</h2>
+                    @endif
 
 
                 </div>

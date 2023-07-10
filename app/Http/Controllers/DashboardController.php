@@ -72,4 +72,14 @@ class DashboardController extends Controller
         return view('singleproduct', compact('product','relatedprod', 'averageRating'));
     }
 
+
+
+    public function search(Request $request)
+    {
+        $products = Product::where('category_id', $request->cat)
+        ->where('name', 'LIKE', "%{$request->name}%")->paginate(10);
+        $category = Category::all();
+        return view('products', compact('products','category'));
+    }
+
 }
