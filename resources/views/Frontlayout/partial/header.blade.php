@@ -2,7 +2,7 @@
     <div class="container">
         <div class="header-top d-flex align-items-center w-100">
             <div class="header-left">
-                <p class="top-message ls-0 text-uppercase text-white d-none d-sm-block">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</p>
+                <p class="top-message ls-0 text-uppercase text-dark d-none d-sm-block">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</p>
             </div>
             <!-- End .header-left -->
 
@@ -105,7 +105,7 @@
                 <!-- End .header-search -->
 
                 <div class="header-contact d-none d-lg-flex pl-4 ml-3 mr-xl-5">
-                    <img alt="phone" src="{{asset('assets/images/phone-white.png')}}" width="30" height="30" class="pb-1">
+                    <img alt="phone" src="{{asset('assets/images/phone-white.png')}}" width="30" height="30" class="pb-1" style="filter: brightness(0)">
                     <h6>Call us now<a href="tel:#" class="font1">+123 5678 890</a></h6>
                 </div>
 
@@ -184,7 +184,7 @@
 
                                 <span class="cart-total-price float-right">
                                     @if (Auth::check())
-                                        ${{$total}}
+                                        £{{$total}}
                                     @else
                                     0
                                     @endif
@@ -229,7 +229,7 @@
                             <div class="megamenu megamenu-fixed-width megamenu-3cols">
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <ul class="submenu">
+                                        <ul class="submenu" style="column-count: 2;">
                                             @foreach ($category as $item)
                                                 <li><a href="{{route('categorysearch', $item->slug)}}">{{$item->name}}</a></li>
                                             @endforeach
@@ -247,7 +247,7 @@
                                                     <b class="">50%</b>
                                                     <i>OFF</i>
                                                 </h4>
-                                                <a href="demo2-shop.html" class="btn btn-sm btn-dark">SHOP
+                                                <a href="{{route('allproducts')}}" class="btn btn-sm btn-dark">SHOP
                                                     NOW</a>
                                             </div>
                                         </div>
@@ -303,7 +303,7 @@
                                                     <b class="">50%</b>
                                                 </h4>
                                             </div>
-                                            <a href="demo2-shop.html" class="btn btn-sm btn-dark">SHOP NOW</a>
+                                            <a href="{{route('allproducts')}}" class="btn btn-sm btn-dark">SHOP NOW</a>
                                         </div>
                                     </div>
                                     <!-- End .col-lg-4 -->

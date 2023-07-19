@@ -11,7 +11,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="assets/images/icons/favicon.png">
+    <link rel="icon" type="image/x-icon" href="{{asset('assets/images/fav-icon.png')}}">
 
 
     <script>

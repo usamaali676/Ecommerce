@@ -51,8 +51,8 @@
                             <input type="text" name="price" class="form-control" id="inputPassword5">
                         </div>
                         <div class="col-12">
-                            <label for="image" class="form-label">Image</label>
-                            <input class="form-control" name="images[]" type="file" id="formFile" multiple="multiple">                        </div>
+                            <label for="image" class="form-label">Image (Dimensions 300 x 300)</label>
+                            <input class="form-control" name="images[]" type="file" id="fileToUpload" multiple="multiple">                        </div>
                         <div class="col-12">
                             <label for="description" class="form-label">Description</label>
                             <textarea name="description" class="ckeditor form-control" id="editor" ></textarea>
@@ -83,4 +83,39 @@
     </div>
   </section>
 
+@endsection
+
+@section('adminscripts')
+<script>
+    var uploadField = document.getElementById("fileToUpload");
+
+    uploadField.onchange = function() {
+        if(this.files[0].size > 100000){
+       alert("The file is too big! Please use an image below 100kb.");
+       this.value = "";
+        };
+      var file = this.files[0];
+      var image = new Image();
+
+      image.onload = function() {
+        var maxHeight = 300; // Maximum allowed height
+        var maxWidth = 300; // Maximum allowed width
+
+        var height = this.height;
+        var width = this.width;
+
+        if (height > maxHeight || width > maxWidth) {
+          alert("The image dimensions are too large. Maximum dimensions allowed are " + maxHeight + "px height and " + maxWidth + "px width.");
+          uploadField.value = ""; // Clear the file input
+        }
+      };
+
+      var reader = new FileReader();
+      reader.onload = function(event) {
+        image.src = event.target.result;
+      };
+
+      reader.readAsDataURL(file);
+    };
+  </script>
 @endsection

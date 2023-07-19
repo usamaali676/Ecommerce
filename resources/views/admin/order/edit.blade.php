@@ -127,7 +127,7 @@
                                 <th >{{$srno++}}</th>
                                 <td>{{$item->products->name}}</td>
                                 <td>{{$item->qty}}</td>
-                                <td>${{$item->price}}</td>
+                                <td>£{{$item->price}}</td>
                                 <td>
                                     @foreach ($item->products->prodimage as $img)
                                     @if ($loop->first >= 2)

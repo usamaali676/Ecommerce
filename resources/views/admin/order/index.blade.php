@@ -41,7 +41,7 @@
                     <td>{{$item->fname}}</td>
                     <td>{{$item->email}}</td>
                     <td>{{$item->tracking_no}}</td>
-                    <td>{{$item->total_price}}</td>
+                    <td>£{{$item->total_price}}</td>
                     @if ($item->status == 1)
                     <td>Complete</td>
                     @else

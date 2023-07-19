@@ -104,6 +104,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         $request->validate([
             'name' => 'required | unique:products,name,'.$id,
             'category_id' => 'required',
@@ -113,7 +114,7 @@ class ProductController extends Controller
         ]);
         $product = Product::find($id);
         $input['name'] = $request->name;
-        $input['category_id	'] = $request->category_id;
+        $input['category_id'] = $request->category_id;
         $input['slug'] =  preg_replace('/\s+/', '-', $request->slug);
         $input['price'] = $request->price;
         $input['description'] = $request->description;

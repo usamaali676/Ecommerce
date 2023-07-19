@@ -27,6 +27,7 @@
 
   @include('layouts.partial.scripts')
 
+  @yield('adminscripts')
 
 </body>
 

@@ -12,7 +12,11 @@
 
                         <div class="tab-pane fade show active profile-overview" id="profile-overview">
 
-                            <h5 class="card-title">Order Details</h5>
+                            <div style="display: flex;     justify-content: space-between;">
+                                <h5 class="card-title">Order Details</h5>
+                             <a href="{{route('invoice', $order->tracking_no)}}" class="btn btn-success " target="_blank" style="float: right; height: 50px;">Genrate Invoice</a>
+                            </div>
+
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 label ">User Name</div>
                                 <div class="col-lg-9 col-md-8">{{$order->fname}} {{$order->lname}}</div>
@@ -57,7 +61,7 @@
 
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 label">Tolal</div>
-                                <div class="col-lg-9 col-md-8">{{ $order->total_price }}</div>
+                                <div class="col-lg-9 col-md-8">£{{ $order->total_price }}</div>
                             </div>
 
                             <div class="row">
@@ -108,7 +112,7 @@
                                             <th >{{$srno++}}</th>
                                             <td>{{$item->products->name}}</td>
                                             <td>{{$item->qty}}</td>
-                                            <td>${{$item->price}}</td>
+                                            <td>£{{$item->price}}</td>
                                             <td>
                                                 @foreach ($item->products->prodimage as $img)
                                                     @if ($loop->first)

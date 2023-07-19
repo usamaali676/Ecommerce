@@ -137,7 +137,7 @@
                             </table>
                             <hr class="mt-0 mb-3 pb-2" />
 
-                            <a href="category.html" class="btn btn-dark">Go Shop</a>
+                            <a href="{{route('allproducts')}}" class="btn btn-dark">Go Shop</a>
                         </div>
                     </div>
                 </div><!-- End .tab-pane -->

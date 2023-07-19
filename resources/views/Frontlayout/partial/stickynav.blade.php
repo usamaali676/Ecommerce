@@ -1,21 +1,21 @@
-<div class="sticky-navbar">
+<div class="sticky-navbar" style="justify-content: space-between;">
     <div class="sticky-info">
-        <a href="demo2.html">
+        <a href="{{route('fronthome')}}">
             <i class="icon-home"></i>Home
         </a>
     </div>
     <div class="sticky-info">
-        <a href="demo2-shop.html" class="">
+        <a href="{{route('allproducts')}}" class="">
             <i class="icon-bars"></i>Categories
         </a>
     </div>
+    <!--<div class="sticky-info">-->
+    <!--    <a href="wishlist.html" class="">-->
+    <!--        <i class="icon-wishlist-2"></i>Wishlist-->
+    <!--    </a>-->
+    <!--</div>-->
     <div class="sticky-info">
-        <a href="wishlist.html" class="">
-            <i class="icon-wishlist-2"></i>Wishlist
-        </a>
-    </div>
-    <div class="sticky-info">
-        <a href="my-account.html" class="">
+        <a href="{{route('login')}}" class="">
             <i class="icon-user-2"></i>Account
         </a>
     </div>
@@ -25,7 +25,7 @@
     @endphp
 @endif
     <div class="sticky-info">
-        <a href="cart.html" class="">
+        <a href="{{route('cart')}}" class="">
             <i class="icon-shopping-cart position-relative">
                 <span class="cart-count badge-circle">
                     @if (Auth::check())

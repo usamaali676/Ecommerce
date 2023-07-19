@@ -52,7 +52,7 @@
                                         <a href="{{route('singleproduct', $item->product->slug)}}">{{$item->product->name}}</a>
                                     </h5>
                                 </td>
-                                <td>${{$item->product->price}}</td>
+                                <td>£{{$item->product->price}}</td>
                                 <td>
                                     <div class="product-single-qty" id="{{$item->prod_id}}">
                                         <input class="horizontal-quantity form-control quantity_input" value="{{$item->prod_qty}}" type="text">
@@ -66,7 +66,7 @@
 
                                 $total += $subtotal;
                                 @endphp
-                                <td class="text-right"><span class="subtotal-price">${{$subtotal}}</span></td>
+                                <td class="text-right"><span class="subtotal-price">£{{$subtotal}}</span></td>
                             </tr>
                         @endforeach
 
@@ -117,7 +117,7 @@
                     <tbody>
                         <tr>
                             <td>Subtotal</td>
-                            <td>${{$total}}</td>
+                            <td>£{{$total}}</td>
                         </tr>
 
                     </tbody>
@@ -125,7 +125,7 @@
                     <tfoot>
                         <tr>
                             <td>Total</td>
-                            <td>${{$total}}</td>
+                            <td>£{{$total}}</td>
                         </tr>
                     </tfoot>
                 </table>

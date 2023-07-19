@@ -33,7 +33,9 @@
         <div class="col-lg-12 mb-2 appear-animate" data-animation-name="fadeInLeftShorter" data-animation-delay="400" data-animation-duration="1000">
             <div class="home-slider owl-carousel owl-theme" data-owl-options="{
                 'dots': true,
-                'nav': false
+                'nav': false,
+                'autoplay' : true,
+                'autoplayTimeout': 3000
             }">
                 <div class="home-slide home-slide1 banner banner-md-vw banner-sm-vw d-flex align-items-center">
                     <img class="slide-bg" style="background-color: #71b5da;" src="{{asset('assets/images/demoes/demo2/slider/slide-1.jpg')}}" width="835" height="415" alt="slider image">
@@ -41,7 +43,7 @@
                         <h4 class="text-white">Lorem Ipsum Dolor Sit elquaible doer</h4>
                         <h2 class="text-white mb-0">Lorem Ipsum Dolor </h2>
                         <h3 class="text-white text-uppercase">30% Off</h3>
-                        <h5 class="text-white text-uppercase d-inline-flex ls-n-20 mb-0">Starting At <b class="coupon-sale-text text-secondary bg-white">$<em
+                        <h5 class="text-white text-uppercase d-inline-flex ls-n-20 mb-0">Starting At <b class="coupon-sale-text text-secondary bg-white">£<em
                                     class="align-text-top">199</em>99</b></h5>
                         <a href="#" class="btn btn-dark">Get Yours!</a>
                     </div>
@@ -55,7 +57,7 @@
                         <h4>Lorem Ipsum Dolor Sit elquaible doer</h4>
                         <h2>elquaible doer</h2>
                         <h5 class="d-inline-block mb-0 align-top mr-4 pr-3">Starting At
-                            <b>$<em>299</em>99</b>
+                            <b>£<em>299</em>99</b>
                         </h5>
 
                         <a href="#" class="btn btn-dark ls-10">Get Yours!</a>
@@ -71,7 +73,7 @@
                         <h4>Lorem Ipsum Dolor Sit elquaible doer</h4>
                         <h2>Sit elquaible doer</h2>
                         <h5 class="d-inline-block mb-0 align-top mr-4 pr-3">Starting At
-                            <b>$<em>299</em>99</b>
+                            <b>£<em>299</em>99</b>
                         </h5>
                         <a href="#" class="btn btn-dark">Get Yours!</a>
                     </div>
@@ -91,7 +93,7 @@
 
             <div class="info-box-content">
                 <h4>FREE SHIPPING &amp; RETURN</h4>
-                <p class="text-body">Free shipping on all orders over $99.</p>
+                <p class="text-body">Free shipping on all orders over £99.</p>
             </div>
             <!-- End .info-box-content -->
         </div>
@@ -132,7 +134,7 @@
             <div class="banner-layer banner-layer-middle text-right">
                 <h4 class="banner-layer-circle-item ml-auto mb-2 ls-0">40<sup>%<small
                             class="ls-0">OFF</small></sup></h4>
-                <h5 class="m-b-3 ls-0"><del class="d-block m-b-2">$450</del>$270</h5>
+                <h5 class="m-b-3 ls-0"><del class="d-block m-b-2">£450</del>£270</h5>
                 <h4 class="m-b-1 ls-n-0">Lorem Ipsum</h4>
                 <h3 class="mb-0 ls-0">dolor sit</h3>
             </div>
@@ -151,7 +153,7 @@
                     <h4 class="mb-1 coupon-sale-text bg-white d-block ls-n-10 text-transform-none">
                         Sit elquaible doer
                     </h4>
-                    <h5 class="coupon-sale-text text-white ls-n-10 p-0"><i class="ls-0">UP TO</i><b class="text-dark">$100</b> OFF</h5>
+                    <h5 class="coupon-sale-text text-white ls-n-10 p-0"><i class="ls-0">UP TO</i><b class="text-dark">£100</b> OFF</h5>
                     <a href="#" class="btn btn-block btn-dark btn-black">Get Yours!</a>
                 </div>
             </div>
@@ -165,7 +167,7 @@
             <div class="banner-layer banner-layer-middle text-right">
                 <h2 class="m-b-2 text-secondary ls-n-20">Sit elquaible doer</h2>
                 <h3 class="m-b-1 ls-n-20">Sit elquaible<br> Ipsum Dolor</h3>
-                <h4 class="text-white ls-n-20">Starting<br>AT <sup>$</sup>199<sup>99</sup></h4>
+                <h4 class="text-white ls-n-20">Starting<br>AT <sup>£</sup>199<sup>99</sup></h4>
                 <a href="#" class="btn btn-light ls-10">View Now</a>
             </div>
         </div>
@@ -194,7 +196,7 @@
             <div class="banner-layer banner-layer-top text-right">
                 <h3 class="ls-0">Sit elquaible doer</h3>
                 <h2 class="m-b-3 ls-10 text-transform-none">Lorem Ipsum</h2>
-                <h4 class="m-b-3 text-secondary ls-0">Starting at $99</h4>
+                <h4 class="m-b-3 text-secondary ls-0">Starting at £99</h4>
                 <a href="#" class="btn btn-dark ls-10">Buy Now!</a>
             </div>
         </div>
@@ -225,17 +227,16 @@
 <div class="products-section section-bg-gray">
     <div class="container">
         <h2 class="section-title appear-animate" data-animation-name="fadeInUpShorter" data-animation-delay="200" data-animation-duration="1000">Featured Products</h2>
-        <div class="products-slider owl-carousel owl-theme dots-top dots-small">
+        <div class="row">
             @foreach ($product as $item)
-                <div class="product-default inner-quickview inner-icon appear-animate" data-animation-name="fadeInUpShorter" data-animation-delay="200" data-animation-duration="1000">
+                <div class=" col-sm-3 product-default inner-quickview inner-icon appear-animate" data-animation-name="fadeInUpShorter" data-animation-delay="200" data-animation-duration="1000">
                     <figure class="img-effect">
                         <a href="{{route('singleproduct', $item->slug)}}">
                             @foreach ($item->prodimage as $img)
                             @if ($loop->iteration >= 2)
-                                <img src="{{asset('images/products')}}/{{$img->image}}" width="265" height="265" alt="product" />
+                                <img src="{{asset('images/products')}}/{{$img->image}}" style=" width:265px; height:265px; " alt="product" />
                             @endif
                             @endforeach
-                            {{-- <img src="{{asset('assets/images/demoes/demo2/products/product-1-2.jpg')}}" width="265" height="265" alt="product" /> --}}
                         </a>
                         {{-- <div class="label-group">
                             <div class="product-label label-hot">HOT</div>
@@ -261,7 +262,7 @@
                         <!-- End .product-container -->
                         <div class="price-box">
                             {{-- <span class="old-price">$59.00</span> --}}
-                            <span class="product-price">${{$item->price}}</span>
+                            <span class="product-price">£{{$item->price}}</span>
                         </div>
                         <!-- End .price-box -->
                     </div>
@@ -272,218 +273,7 @@
         </div>
     </div>
 </div>
-{{-- <div class="products-section section-bg-gray">
-    <div class="container">
-        <div class="products-slider owl-carousel owl-theme dots-top dots-small">
-            <div class="product-default inner-quickview inner-icon appear-animate" data-animation-name="fadeInUpShorter" data-animation-delay="200" data-animation-duration="1000">
-                <figure class="img-effect">
-                    <a href="#">
-                        <img src="{{asset('assets/images/demoes/demo2/products/product-1.jpg')}}" width="265" height="265" alt="product" />
-                        <img src="{{asset('assets/images/demoes/demo2/products/product-1-2.jpg')}}" width="265" height="265" alt="product" />
-                    </a>
-                    <div class="label-group">
-                        <div class="product-label label-hot">HOT</div>
-                        <div class="product-label label-sale">27%</div>
-                    </div>
-                    <div class="btn-icon-group">
-                        <a href="#" class="btn-icon btn-add-cart product-type-simple"><i
-                                class="icon-shopping-cart"></i></a>
-                    </div>
-                    <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View">Quick
-                        View</a>
-                </figure>
-                <div class="product-details">
-                    <div class="category-wrap">
-                        <div class="category-list">
-                            <a href="#" class="product-category">category</a>
-                        </div>
-                        <a href="#" title="Wishlist" class="btn-icon-wish"><i
-                                class="icon-heart"></i></a>
-                    </div>
-                    <h3 class="product-title">
-                        <a href="#">Product 1</a>
-                    </h3>
-                    <div class="ratings-container">
-                        <div class="product-ratings">
-                            <span class="ratings" style="width:100%"></span>
-                            <!-- End .ratings -->
-                            <span class="tooltiptext tooltip-top"></span>
-                        </div>
-                        <!-- End .product-ratings -->
-                    </div>
-                    <!-- End .product-container -->
-                    <div class="price-box">
-                        <span class="old-price">$59.00</span>
-                        <span class="product-price">$49.00</span>
-                    </div>
-                    <!-- End .price-box -->
-                </div>
-                <!-- End .product-details -->
-            </div>
-            <div class="product-default inner-quickview inner-icon appear-animate" data-animation-name="fadeInUpShorter" data-animation-delay="200" data-animation-duration="1000">
-                <figure class="img-effect">
-                    <a href=#>
-                        <img src="{{asset('assets/images/demoes/demo2/products/product-2.jpg')}}" width="265" height="265" alt="product" />
-                    </a>
-                    <div class="btn-icon-group">
-                        <a href="#" class="btn-icon btn-add-cart"><i
-                                class="fa fa-arrow-right"></i>
-                        </a>
-                    </div>
-                    <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View">Quick
-                        View</a>
-                </figure>
-                <div class="product-details">
-                    <div class="category-wrap">
-                        <div class="category-list">
-                            <a href="#" class="product-category">category</a>
-                        </div>
-                        <a href="#" title="Wishlist" class="btn-icon-wish"><i
-                                class="icon-heart"></i></a>
-                    </div>
-                    <h3 class="product-title">
-                        <a href="#">Product 2</a>
-                    </h3>
-                    <div class="ratings-container">
-                        <div class="product-ratings">
-                            <span class="ratings" style="width:100%"></span>
-                            <!-- End .ratings -->
-                            <span class="tooltiptext tooltip-top"></span>
-                        </div>
-                        <!-- End .product-ratings -->
-                    </div>
-                    <!-- End .product-container -->
-                    <div class="price-box">
-                        <span class="old-price">$59.00</span>
-                        <span class="product-price">$49.00</span>
-                    </div>
-                    <!-- End .price-box -->
-                </div>
-                <!-- End .product-details -->
-            </div>
-            <div class="product-default inner-quickview inner-icon appear-animate" data-animation-name="fadeInUpShorter" data-animation-delay="200" data-animation-duration="1000">
-                <figure class="img-effect">
-                    <a href="#">
-                        <img src="{{asset('assets/images/demoes/demo2/products/product-3.jpg')}}" width="265" height="265" alt="product" />
-                    </a>
-                    <div class="btn-icon-group">
-                        <a href="#" class="btn-icon btn-add-cart product-type-simple"><i
-                                class="icon-shopping-cart"></i></a>
-                    </div>
-                    <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View">Quick
-                        View</a>
-                </figure>
-                <div class="product-details">
-                    <div class="category-wrap">
-                        <div class="category-list">
-                            <a href="#" class="product-category">category</a>
-                        </div>
-                        <a href="#" title="Wishlist" class="btn-icon-wish"><i
-                                class="icon-heart"></i></a>
-                    </div>
-                    <h3 class="product-title">
-                        <a href="#">Product 3</a>
-                    </h3>
-                    <div class="ratings-container">
-                        <div class="product-ratings">
-                            <span class="ratings" style="width:100%"></span>
-                            <!-- End .ratings -->
-                            <span class="tooltiptext tooltip-top"></span>
-                        </div>
-                        <!-- End .product-ratings -->
-                    </div>
-                    <!-- End .product-container -->
-                    <div class="price-box">
-                        <span class="old-price">$59.00</span>
-                        <span class="product-price">$49.00</span>
-                    </div>
-                    <!-- End .price-box -->
-                </div>
-                <!-- End .product-details -->
-            </div>
-            <div class="product-default inner-quickview inner-icon appear-animate" data-animation-name="fadeInUpShorter" data-animation-delay="200" data-animation-duration="1000">
-                <figure class="img-effect">
-                    <a href="#">
-                        <img src="{{asset('assets/images/demoes/demo2/products/product-4.jpg')}}" width="265" height="265" alt="product">
-                    </a>
-                    <div class="btn-icon-group">
-                        <a href="#" class="btn-icon btn-add-cart product-type-simple"><i
-                                class="icon-shopping-cart"></i></a>
-                    </div>
-                    <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View">Quick
-                        View</a>
-                </figure>
-                <div class="product-details">
-                    <div class="category-wrap">
-                        <div class="category-list">
-                            <a href="#" class="product-category">category</a>
-                        </div>
-                        <a href="wishlist.html" title="Wishlist" class="btn-icon-wish"><i
-                                class="icon-heart"></i></a>
-                    </div>
-                    <h3 class="product-title">
-                        <a href="#">Product 4</a>
-                    </h3>
-                    <div class="ratings-container">
-                        <div class="product-ratings">
-                            <span class="ratings" style="width:100%"></span>
-                            <!-- End .ratings -->
-                            <span class="tooltiptext tooltip-top"></span>
-                        </div>
-                        <!-- End .product-ratings -->
-                    </div>
-                    <!-- End .product-container -->
-                    <div class="price-box">
-                        <span class="old-price">$59.00</span>
-                        <span class="product-price">$49.00</span>
-                    </div>
-                    <!-- End .price-box -->
-                </div>
-                <!-- End .product-details -->
-            </div>
-            <div class="product-default inner-quickview inner-icon appear-animate" data-animation-name="fadeInUpShorter" data-animation-delay="200" data-animation-duration="1000">
-                <figure class="img-effect">
-                    <a href=#>
-                        <img src="{{asset('assets/images/demoes/demo2/products/product-5.jpg')}}" width="265" height="265" alt="product" />
-                    </a>
-                    <div class="btn-icon-group">
-                        <a href="#" class="btn-icon btn-add-cart product-type-simple"><i
-                                class="icon-shopping-cart"></i></a>
-                    </div>
-                    <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View">Quick
-                        View</a>
-                </figure>
-                <div class="product-details">
-                    <div class="category-wrap">
-                        <div class="category-list">
-                            <a href="#" class="product-category">category</a>
-                        </div>
-                        <a href="wishlist.html" title="Wishlist" class="btn-icon-wish"><i
-                                class="icon-heart"></i></a>
-                    </div>
-                    <h3 class="product-title">
-                        <a href="#">Product 5</a>
-                    </h3>
-                    <div class="ratings-container">
-                        <div class="product-ratings">
-                            <span class="ratings" style="width:100%"></span>
-                            <!-- End .ratings -->
-                            <span class="tooltiptext tooltip-top"></span>
-                        </div>
-                        <!-- End .product-ratings -->
-                    </div>
-                    <!-- End .product-container -->
-                    <div class="price-box">
-                        <span class="old-price">$59.00</span>
-                        <span class="product-price">$49.00</span>
-                    </div>
-                    <!-- End .price-box -->
-                </div>
-                <!-- End .product-details -->
-            </div>
-        </div>
-    </div>
-</div> --}}
+
 
 <div class="brands-section mt-5 mb-5 appear-animate" data-animation-delay="200" data-animation-name="fadeIn" data-animation-duration="1000">
     <div class="container">

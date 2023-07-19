@@ -85,7 +85,7 @@
 
                 <div class="price-box">
                     {{-- <span class="old-price">$1,999.00</span> --}}
-                    <span class="new-price">${{$product->price}}</span>
+                    <span class="new-price">£{{$product->price}}</span>
                 </div>
                 <!-- End .price-box -->
 
@@ -329,7 +329,7 @@
                             <img src="{{asset('images/products')}}/{{$img->image}}" width="265" height="265" alt="product" />
                         @endif
                         @endforeach
-                        {{-- <img src="{{asset('assets/images/demoes/demo2/products/product-1-2.jpg')}}" width="265" height="265" alt="product" /> --}}
+                        {{-- <img src="{{asset('assets/images/demoes/demo2/products/product-1-2.jpg')}}" style=" width:265px; height:265px;" alt="product" /> --}}
                     </a>
                     <div class="label-group">
                         <div class="product-label label-hot">HOT</div>
@@ -363,7 +363,7 @@
                     <!-- End .product-container -->
                     <div class="price-box">
                         {{-- <span class="old-price">$59.00</span> --}}
-                        <span class="product-price">${{$item->price}}</span>
+                        <span class="product-price">£{{$item->price}}</span>
                     </div>
                     <!-- End .price-box -->
                 </div>

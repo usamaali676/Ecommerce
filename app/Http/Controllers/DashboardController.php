@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Reviews;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $product = Product::all();
+        $product = Product::limit(12)->get();
         $category = Category::all();
         return view('index', compact('product', 'category'));
     }
@@ -80,6 +81,13 @@ class DashboardController extends Controller
         ->where('name', 'LIKE', "%{$request->name}%")->paginate(10);
         $category = Category::all();
         return view('products', compact('products','category'));
+    }
+
+    public function invoice($id)
+    {
+        $order = Order::where('tracking_no', $id)->first();
+        // dd($order);
+        return view('invoice', compact('order'));
     }
 
 }

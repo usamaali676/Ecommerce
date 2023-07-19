@@ -4,15 +4,16 @@
         <nav class="mobile-nav">
             <ul class="mobile-menu">
                 <li><a href="{{route('fronthome')}}">Home</a></li>
+                 @php
+                $category = App\Models\Category::limit(8)->get();
+                @endphp
+
                 <li>
                     <a href="#">Categories</a>
                     <ul>
-                        <li><a href="#">Lorem Ipsum</a></li>
-                        <li><a href="#">Lorem Ipsum</a></li>
-                        <li><a href="#">Lorem Ipsum</a></li>
-                        <li><a href="#">Lorem Ipsum</a></li>
-                        <li><a href="#">Lorem Ipsum</a></li>
-                        <li><a href="#">Lorem Ipsum</a></li>
+                        @foreach ($category as $item)
+                         <li><a href="{{route('categorysearch', $item->slug)}}">{{$item->name}}</a></li>
+                        @endforeach
                     </ul>
                 </li>
                 <li>
@@ -27,11 +28,9 @@
 
             <ul class="mobile-menu">
                 <li><a href="{{route('login')}}">My Account</a></li>
-                <li><a href="#">Contact Us</a></li>
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">My Wishlist</a></li>
+                <li><a href="{{route('contact')}}">Contact Us</a></li>
                 <li><a href="{{route('cart')}}">Cart</a></li>
-                <li><a href="{{route('login')}}" class="login-link">Log In</a></li>
+                <li><a href="{{route('login')}}" >Log In</a></li>
             </ul>
         </nav>
         <!-- End .mobile-nav -->

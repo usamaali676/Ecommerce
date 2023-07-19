@@ -77,7 +77,7 @@
                     <i class="bi bi-currency-dollar"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>${{$revenue}}</h6>
+                    <h6>£{{$revenue}}</h6>
 
                   </div>
                 </div>
@@ -135,7 +135,7 @@
                         <th scope="row"><a href="#">{{$item->id}}</a></th>
                         <td>{{$item->fname}}</td>
                         <td><a href="#" class="text-primary">{{$item->tracking_no}}</a></td>
-                        <td>${{$item->total_price}}</td>
+                        <td>£{{$item->total_price}}</td>
                         <td>
                             @if ($item->status == 1)
                                 <span class="badge bg-success"></span>
