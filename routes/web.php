@@ -41,6 +41,7 @@ use Illuminate\Support\Facades\Auth;
         Route::get('/products/{slug?}', 'singleproduct')->name('singleproduct');
         Route::get('/search', 'search')->name('search');
         Route::get('/invoice/{id}', 'invoice')->name('invoice');
+        Route::get('variant', 'variant')->name('variant');
     });
     Route::controller(ReviewsController::class)->group(function () {
         Route::post('/add-review', 'store')->name('add-review');

@@ -10553,7 +10553,7 @@ span.toggle:before {
 
 .product-single-details .new-price {
     color: #222529;
-    font-size: 2.4rem;
+    font-size: 3.4rem;
     letter-spacing: -0.02em;
     vertical-align: middle;
     line-height: 0.8;
@@ -17114,4 +17114,26 @@ p {
     margin-right: 4px;
     text-align: center;
     width: 32px
+}
+.variant-box {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #d9d9d9;
+    margin: 10px;
+    border-radius: 10px;
+    background-color: #F3F3F3;
+}
+.variant-box P {
+    margin: 10px 0px 0px 0px;
+    color: #484848;
+}
+.storage{
+border: 1px solid #cbcbcb;
+    padding: 5px 15px;
+    border-radius: 5px;
+    background-color: #F3F3F3;
+}
+.storage p {
+    margin: 0;
+    color: #505050;
 }

@@ -28,7 +28,8 @@ class CartController extends Controller
                 {
                     if(Cart::where('prod_id',$product_id)->where('user_id',Auth::id())->exists())
                     {
-                       return response()->json(['status'=> $product_check->name." Already In Cart"]);
+                        // dd("cvsa");
+                       return response()->json(['status'=> "Already In Cart"]);
                     }
                     else
                     {
@@ -49,6 +50,7 @@ class CartController extends Controller
         else
         {
             return response()->json(['status' => "Please Login First..."]);
+
         }
 
     }

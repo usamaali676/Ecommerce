@@ -85,9 +85,41 @@
 
                 <div class="price-box">
                     {{-- <span class="old-price">$1,999.00</span> --}}
-                    <span class="new-price">£{{$product->price}}</span>
+                    <span class="new-price" id="prod-price">£{{$product->price}}</span>
                 </div>
                 <!-- End .price-box -->
+
+                @if (isset($color_variant))
+                    <h5 style="margin-bottom: 5px;">Color:</h5>
+                @endif
+
+                <div class="d-flex">
+                        @foreach ($color_variant as $color)
+                    <a href="javascript:;" class="variants"  id="{{$color->id}}">
+                        <div class="variant-box">
+                            @foreach ($color->variantimage as $img)
+                            @if ($loop->first)
+                            <img src="{{asset('images/products')}}/{{$img->image}}" alt="" style="width: 70px
+                            ">
+                            @break
+                            @endif
+                            @endforeach
+                            <p>{{$color->name}}</p>
+                        </div>
+                    </a>
+                        @endforeach
+                </div>
+
+                @if (isset($storage_variant))
+                <h5 style="margin: 10px 0px;">Storage:</h5>
+                @endif
+                <div class="d-flex">
+                    @foreach ($storage_variant as $storage)
+                    <div class="storage">
+                        <p>{{$storage->name}}</p>
+                    </div>
+                    @endforeach
+                </div>
 
                 <div class="product-desc">
                     <p>
@@ -96,38 +128,6 @@
                 </div>
                 <!-- End .product-desc -->
 
-                {{-- <div class="product-filters-container">
-                    <div class="product-single-filter select-custom">
-                        <label>COLOR:</label>
-                        <select name="orderby" class="form-control">
-                            <option value="" selected="selected">CHOOSE AN OPTION
-                            </option>
-                            <option value="1">BLACK</option>
-                            <option value="2">BLUE</option>
-                            <option value="3">INDEGO</option>
-                            <option value="4">RIGHT-BLUE</option>
-                            <option value="5">RED</option>
-                        </select>
-                    </div>
-
-                    <div class="product-single-filter select-custom">
-                        <label>SIZE:</label>
-                        <select name="orderby" class="form-control">
-                            <option value="" selected="selected">CHOOSE AN OPTION
-                            </option>
-                            <option value="1">EXTRA LARGE</option>
-                            <option value="2">LARGE</option>
-                            <option value="3">MEDIUM</option>
-                            <option value="4">SMALL</option>
-                        </select>
-                    </div>
-
-                    <div class="product-single-filter">
-                        <label></label>
-                        <a class="font1 text-uppercase clear-btn" href="#">Clear</a>
-                    </div>
-                    <!---->
-                </div> --}}
 
                 <div class="product-action">
                     {{-- <div class="price-box product-filtered-price">
@@ -326,7 +326,7 @@
                     <a href="{{route('singleproduct', $item->slug)}}">
                         @foreach ($item->prodimage as $img)
                         @if ($loop->iteration >= 2)
-                            <img src="{{asset('images/products')}}/{{$img->image}}" width="265" height="265" alt="product" />
+                            <img src="{{asset('images/products')}}/{{$img->image}}" style="width: 300px; height: 300px;"  alt="product" />
                         @endif
                         @endforeach
                         {{-- <img src="{{asset('assets/images/demoes/demo2/products/product-1-2.jpg')}}" style=" width:265px; height:265px;" alt="product" /> --}}
@@ -411,17 +411,16 @@ $(document).ready(function () {
                     {
 
                         swal("Oops...", `${response.status}`, "error");
+                        window.location.href = '/login';
                     }
-                    else if(response.status === "Please Verify you Email")
+                    else if(response.status === "Already In Cart")
                     {
-
                         swal("Oops...", `${response.status}`, "error");
                     }
                     else
                     {
                         swal("Done!", `${response.status}`, "success");
                     }
-
 
                 }
             })
@@ -453,6 +452,35 @@ $(document).ready(function () {
         //         $('.quantity-input').val(value);
         //     }
         // })
+    })
+</script>
+
+<script>
+    $(document).ready(function () {
+        $(".variants").click(function(e){
+            var variant_id = $(this).attr("id")
+
+            $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+            });
+            $.ajax({
+                url : "{{route('variant')}}",
+                type : "get",
+                data : {
+                    'variant_id': variant_id,
+                },
+                success: function(data)
+                {
+                    var variant = data.variant;
+                    // console.log(variant.price);
+                    $('#prod-price').html("£" + variant.price);
+                }
+
+            })
+            // alert(variant_id);
+        })
     })
 </script>
 @endsection

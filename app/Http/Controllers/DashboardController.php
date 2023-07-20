@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Reviews;
+use App\Models\Variant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\FlareClient\View;
@@ -61,7 +62,15 @@ class DashboardController extends Controller
         return view('checkout', compact('cartitem', 'total'));
     }
     public function singleproduct($slug){
-        $product = Product::where('slug', $slug)->with('reviews')->first();
+        $product = Product::where('slug', $slug)->with('reviews','variants')->first();
+        $variant = Variant::where('prod_id', $product->id)->get();
+        $color_variant = Variant::where('prod_id', $product->id)
+        ->where('type', "Color")
+        ->get();
+        $storage_variant = Variant::where('prod_id', $product->id)
+        ->where('type', "Storage")
+        ->get();
+
         $averageRating = Reviews::where('prod_id', $product->id)
         ->selectRaw('SUM(stars)/COUNT(user_id) AS avg_rating')
         ->first()
@@ -70,7 +79,14 @@ class DashboardController extends Controller
         if(isset($product)){
         $relatedprod = Product::where('category_id', $product->category_id)->get();
         }
-        return view('singleproduct', compact('product','relatedprod', 'averageRating'));
+        return view('singleproduct', compact('product','relatedprod', 'averageRating', 'variant', 'color_variant', 'storage_variant'));
+    }
+
+    public function variant(Request $request)
+    {
+        $variant_id  = $request->input('variant_id');
+        $variant = Variant::where('id', $variant_id)->first();
+        return response()->json(['variant' => $variant]);
     }
 
 

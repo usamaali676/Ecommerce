@@ -35,16 +35,16 @@
                 'dots': true,
                 'nav': false,
                 'autoplay' : true,
-                'autoplayTimeout': 3000
+                'autoplayTimeout': 5000
             }">
                 <div class="home-slide home-slide1 banner banner-md-vw banner-sm-vw d-flex align-items-center">
                     <img class="slide-bg" style="background-color: #71b5da;" src="{{asset('assets/images/demoes/demo2/slider/slide-1.jpg')}}" width="835" height="415" alt="slider image">
                     <div class="banner-layer">
-                        <h4 class="text-white">Lorem Ipsum Dolor Sit elquaible doer</h4>
-                        <h2 class="text-white mb-0">Lorem Ipsum Dolor </h2>
-                        <h3 class="text-white text-uppercase">30% Off</h3>
-                        <h5 class="text-white text-uppercase d-inline-flex ls-n-20 mb-0">Starting At <b class="coupon-sale-text text-secondary bg-white">£<em
-                                    class="align-text-top">199</em>99</b></h5>
+                        <h4 >Samsung</h4>
+                        <h2>Samsung A Series</h2>
+                        <h3 class="text-uppercase">30% Off</h3>
+                        <h5 class=" text-uppercase d-inline-flex ls-n-20 mb-0">Starting At <b class="coupon-sale-text text-secondary bg-white">£<em
+                                    class="align-text-top">100</em>99</b></h5>
                         <a href="#" class="btn btn-dark">Get Yours!</a>
                     </div>
                     <!-- End .banner-layer -->
@@ -54,10 +54,10 @@
                 <div class="home-slide home-slide2 banner banner-md-vw banner-sm-vw d-flex align-items-center">
                     <img class="slide-bg" style="background-color: #dadada;" src="{{asset('assets/images/demoes/demo2/slider/slide-2.jpg')}}" width="835" height="415" alt="slider image">
                     <div class="banner-layer text-uppercase">
-                        <h4>Lorem Ipsum Dolor Sit elquaible doer</h4>
-                        <h2>elquaible doer</h2>
+                        <h4>Samsung </h4>
+                        <h2>Samsung S Series</h2>
                         <h5 class="d-inline-block mb-0 align-top mr-4 pr-3">Starting At
-                            <b>£<em>299</em>99</b>
+                            <b>£<em>699</em>99</b>
                         </h5>
 
                         <a href="#" class="btn btn-dark ls-10">Get Yours!</a>
@@ -70,10 +70,10 @@
                             align-items-center">
                     <img class="slide-bg" src="{{asset('assets/images/demoes/demo2/slider/slide-3.jpg')}}" style="background-color: #ccc;" width="835" height="415" alt="home slider" />
                     <div class="banner-layer text-uppercase">
-                        <h4>Lorem Ipsum Dolor Sit elquaible doer</h4>
-                        <h2>Sit elquaible doer</h2>
+                        <h4>Samsung</h4>
+                        <h2>Samsung F Series</h2>
                         <h5 class="d-inline-block mb-0 align-top mr-4 pr-3">Starting At
-                            <b>£<em>299</em>99</b>
+                            <b>£<em>170</em>99</b>
                         </h5>
                         <a href="#" class="btn btn-dark">Get Yours!</a>
                     </div>
