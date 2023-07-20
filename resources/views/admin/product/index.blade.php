@@ -56,6 +56,7 @@
                         <a href="{{route('product.edit',$item->id)}}" type="button" class="btn btn-warning" style="color: #fff"><i class="bx bxs-pencil"></i></a>
                         <a href="{{route('product.show',$item->id)}}" type="button" class="btn btn-success"><i class="bx bx-show-alt"></i></a>
                         <a onclick="return confirm('Are you sure?');" href="{{route('product.delete',$item->id)}}"  type="button" class="btn btn-danger"><i class="bx bx-trash"></i></a>
+                        <a href="{{route('variant.create',$item->id)}}" type="button" class="btn btn-primary"><i class="bx bx-category-alt"></i></a>
                     </td>
                   </tr>
                 @endforeach

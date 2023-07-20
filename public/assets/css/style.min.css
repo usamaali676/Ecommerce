@@ -17129,11 +17129,12 @@ p {
 }
 .storage{
 border: 1px solid #cbcbcb;
+margin: 0px 5px;
     padding: 5px 15px;
     border-radius: 5px;
     background-color: #F3F3F3;
 }
 .storage p {
-    margin: 0;
+    margin: 0px;
     color: #505050;
 }

@@ -11,6 +11,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewsController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VariantController;
 use App\Models\OrderItem;
 use Illuminate\Database\Query\IndexHint;
 use Illuminate\Support\Facades\Auth;
@@ -114,6 +115,19 @@ use Illuminate\Support\Facades\Auth;
     Route::controller(ProductController::class)->prefix('product')->as('product.')->middleware('auth')->group(function () {
         Route::get('/index', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        // Route::post('/create-variant', 'create_variant')->name('create_variant');
+        // Route::get('/add_variant/{id}', 'add_variant')->name('add_variant');
+        Route::get('/edit/{id}', 'edit')->name('edit');
+        Route::post('/update/{id}', 'update')->name('update');
+        Route::get('/delete/{id}', 'delete')->name('delete')->middleware('role');
+        Route::get('/show/{id}', 'show')->name('show');
+        Route::get('/deleteImage/{id}' , 'deleteimage')->name('deleteimage');
+        });
+
+    Route::controller(VariantController::class)->prefix('variant')->as('variant.')->middleware('auth')->group(function () {
+        Route::get('/index', 'index')->name('index');
+        Route::get('/create/{id}', 'create')->name('create');
         Route::post('/store', 'store')->name('store');
         Route::get('/edit/{id}', 'edit')->name('edit');
         Route::post('/update/{id}', 'update')->name('update');

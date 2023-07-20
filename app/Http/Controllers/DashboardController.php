@@ -85,7 +85,7 @@ class DashboardController extends Controller
     public function variant(Request $request)
     {
         $variant_id  = $request->input('variant_id');
-        $variant = Variant::where('id', $variant_id)->first();
+        $variant = Variant::where('id', $variant_id)->with('variantimage')->first();
         return response()->json(['variant' => $variant]);
     }
 

@@ -7,6 +7,8 @@ use App\Models\Category;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\Variant;
+use App\Models\VariantImages;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -94,9 +96,56 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::find($id);
+        $variants = Variant::where('prod_id', $product->id)->get();
         $selectedcategory = Category::where('id', $product->category_id)->first();
         $category = Category::all();
-        return view('admin.product.edit', compact('product','selectedcategory','category'));
+        $srno = 1;
+        return view('admin.product.edit', compact('product','selectedcategory','category','variants', 'srno'));
+    }
+
+    public function add_variant($id)
+    {
+        $product = Product::find($id);
+        $selectedcategory = Category::where('id', $product->category_id)->first();
+        $category = Category::all();
+        return view('admin.product.add_variant', compact('product','selectedcategory','category'));
+    }
+
+    public function create_variant(Request $request)
+    {
+        $request->validate([
+            'name' => 'required | unique:variants,name',
+            'type' => 'required',
+             'price' => 'required',
+             'stock' => 'required'
+        ]);
+        $variant = new Variant();
+        $variant->name = $request->name;
+        $variant->prod_id =  $request->prod_id;
+        $variant->type = $request->type;
+        $variant->price = $request->price;
+        $variant->stock = $request->stock;
+        $variant->save();
+
+        if($request->type == "Color")
+        {
+            if(isset($request->images)){
+                foreach($request->file('images') as $imagefile) {
+                    $variantimage['image'] = GlobalHelper::crm_upload_img( $imagefile, 'products');
+                    $variantimage['variant_id'] = $variant->id;
+                    VariantImages::create($variantimage);
+
+                }
+            }
+
+        }
+
+        Alert::success('success', "Variant Added Successfully");
+        return redirect()->route('product.index');
+
+
+
+
     }
 
     /**
