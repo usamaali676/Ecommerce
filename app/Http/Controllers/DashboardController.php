@@ -85,7 +85,27 @@ class DashboardController extends Controller
     public function variant(Request $request)
     {
         $variant_id  = $request->input('variant_id');
+        $prod_id = $request->input('prod_id');
+        $product = Product::where('id', $prod_id)->first();
+        $averageRating = Reviews::where('prod_id', $product->id)
+        ->selectRaw('SUM(stars)/COUNT(user_id) AS avg_rating')
+        ->first()
+        ->avg_rating;
+        // dd($product);
+        if(isset($product)){
+        $relatedprod = Product::where('category_id', $product->category_id)->get();
+        }
         $variant = Variant::where('id', $variant_id)->with('variantimage')->first();
+        $color_variant = Variant::where('prod_id', $product->id)
+        ->where('type', "Color")
+        ->get();
+        $storage_variant = Variant::where('prod_id', $product->id)
+        ->where('type', "Storage")
+        ->get();
+        if($variant->type == "Color")
+        {
+            return view('singleproduct', compact('product','relatedprod', 'averageRating', 'variant', 'color_variant', 'storage_variant'));
+        }
         return response()->json(['variant' => $variant]);
     }
 
