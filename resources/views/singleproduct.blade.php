@@ -1,7 +1,10 @@
 @extends('Frontlayout.master')
 @section('css')
     <link rel="stylesheet" href="{{ asset('assets/css/sweetalert.css') }}">
-@endsection
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css" integrity="sha512-wR4oNhLBHf7smjy0K4oqzdWumd+r5/+6QO/vDda76MW5iug4PT7v86FoEkySIJft3XA0Ae6axhIvHrqwm793Nw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css" integrity="sha512-6lLUdeQ5uheMFbWm3CP271l14RsX1xtx+J5x2yeIDkkiBpeVTNhTqijME7GgRKKi6hCqovwCoBTlRBEC20M8Mg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    @endsection
+
 @section('content')
     <div class="container">
         <nav aria-label="breadcrumb" class="breadcrumb-nav">
@@ -24,7 +27,31 @@
                             <div class="product-label label-hot">HOT</div>
                             <!---->
                         </div>
+                        <div id="prod_img">
+                            <div class="your-class" >
+                                @foreach ($product->prodimage as $img)
+                                        <div class="product-item" >
+                                            <img class="product-single-image"
+                                                src="{{ asset('images/products') }}/{{ $img->image }}"
+                                                data-zoom-image="{{ asset('images/products') }}/{{ $img->image }}"
+                                                width="468" height="468" alt="product" />
+                                        </div>
+                                    @endforeach
+                            </div>
+                        </div>
 
+
+                    <div id="dotsilck" >
+                        <div class="prod-thumbnail silck-dots"  id="silk-dot">
+                            @foreach ($product->prodimage as $img)
+                                <div class="owl-dot">
+                                    <img src="{{ asset('images/products') }}/{{ $img->image }}" width="110" height="110"
+                                        alt="product-thumbnail" />
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+{{--
                         <div id="prod_img">
                             <div class="product-single-carousel owl-carousel owl-theme show-nav-hover">
                                 @foreach ($product->prodimage as $img)
@@ -36,7 +63,7 @@
                                     </div>
                                 @endforeach
                             </div>
-                        </div>
+                        </div> --}}
 
                         <!-- End .product-single-carousel -->
                         <span class="prod-full-screen">
@@ -44,19 +71,24 @@
                         </span>
                     </div>
 
-                    <div class="prod-thumbnail owl-dots" id="dot-owl">
+                    {{-- <div class="prod-thumbnail owl-dots" id="dot-owl">
                         @foreach ($product->prodimage as $img)
                             <div class="owl-dot">
                                 <img src="{{ asset('images/products') }}/{{ $img->image }}" width="110" height="110"
                                     alt="product-thumbnail" />
                             </div>
                         @endforeach
-                    </div>
+                    </div> --}}
                 </div>
                 <!-- End .product-single-gallery -->
 
                 <div class="col-lg-7 col-md-6 product-single-details">
                     <h1 class="product-title">{{ $product->name }}</h1>
+                    <div class="d-flex">
+                        <span>Purple</span>&nbsp;
+                        <span> - 1TB</span>&nbsp;
+                        <span> - New</span>
+                    </div>
 
                     @php
                         $starstotal = $averageRating * 20;
@@ -93,34 +125,39 @@
                     </div>
                     <!-- End .price-box -->
 
-                    @if (isset($color_variant))
+                    @if (count($color_variant) > 0)
                         <h5 style="margin-bottom: 5px;">Color:</h5>
                     @endif
 
                     <div class="d-flex">
-                        @foreach ($color_variant as $color)
-                            <a href="javascript:;" class="variants" id="{{ $color->id }}">
-                                <div class="variant-box">
-                                    @foreach ($color->variantimage as $img)
-                                        @if ($loop->first)
-                                            <img src="{{ asset('images/products') }}/{{ $img->image }}" alt=""
-                                                style="width: 70px
-                            ">
-                                        @break
-                                    @endif
-                                @endforeach
-                                <p>{{ $color->name }}</p>
-                            </div>
-                        </a>
-                    @endforeach
+                        {{-- <select name="" id=""> --}}
+
+                            @foreach ($color_variant as $color)
+                                <a href="javascript:void(0)" class="variants color_id " id="{{ $color->id }}">
+                                    <input type="hidden" name="color_id" value="" id="color_id">
+                                    <div class="variant-box colvariant-{{$color->id}} border">
+                                        @foreach ($color->variantimage as $img)
+                                            @if ($loop->first)
+                                                <img src="{{ asset('images/products') }}/{{ $img->image }}" alt=""
+                                                    style="width: 70px
+                                ">
+                                            @break
+                                        @endif
+                                    @endforeach
+                                    <p>{{ $color->name }}</p>
+                                </div>
+                            </a>
+                        @endforeach
+                    {{-- </select> --}}
                 </div>
 
-                @if (isset($storage_variant))
+                @if (count($storage_variant) > 0)
                     <h5 style="margin: 10px 0px;">Storage:</h5>
                 @endif
                 <div class="d-flex">
                     @foreach ($storage_variant as $storage)
-                        <a href="javascript:;" class="variants" id="{{ $storage->id }}">
+                        <a href="javascript:void(0)" class="storagevariants" id="{{ $storage->id }}">
+                            <input type="hidden" name="storage_id" value="" id="storage_id">
                             <div class="storage">
                                 <p>{{ $storage->name }}</p>
                             </div>
@@ -128,11 +165,11 @@
                     @endforeach
                 </div>
 
-                <div class="product-desc">
+                {{-- <div class="product-desc">
                     <p>
                         {!! $product->description !!}
                     </p>
-                </div>
+                </div> --}}
                 <!-- End .product-desc -->
 
 
@@ -409,12 +446,66 @@
 @endsection
 @section('js')
 <script src="{{ asset('assets/js/sweetalert.all.js') }}"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+      $('.your-class').slick({
+        speed: 300,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        asNavFor: '.silck-dots',
+        responsive: [
+            {
+            breakpoint: 1024,
+            settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3,
+                infinite: true,
+                dots: true
+            }
+            },
+            {
+            breakpoint: 600,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 2
+            }
+            },
+            {
+            breakpoint: 480,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+            }
+            // You can unslick at a given breakpoint now by adding:
+            // settings: "unslick"
+            // instead of a settings object
+        ]
+      });
+      $('.silck-dots').slick({
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        asNavFor: '.your-class',
+        dots: false,
+        centerMode: true,
+        focusOnSelect: true
+        });
+    });
+  </script>
+
 <script>
     $(document).ready(function() {
         $('.addToCartButton').click(function(e) {
             var product_id = $("#prod_id").val();
             var product_qty = $("#qty").val();
-            // alert(product_qty);
+            var color_id = $("#color_id").val();
+            var storage_id = $("#storage_id").val();
+
+            alert(color_id);
+            alert(storage_id);
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -426,7 +517,10 @@
                 type: "POST",
                 data: {
                     'product_id': product_id,
-                    'product_qty': product_qty
+                    'product_qty': product_qty,
+                    'color_id' : color_id,
+                    'storage_id' : storage_id
+
                 },
                 success: function(response) {
                     window.location.reload();
@@ -478,6 +572,21 @@
         $(".variants").click(function(e) {
             var variant_id = $(this).attr("id")
             var prod_id = $('#prod_id').val();
+
+            $(".variants").removeClass("border-active");
+            $(this).addClass("border-active");
+
+            // $('[class=colvariant]').addClass("border");
+            // $(this).addClass("test");
+            // var border_color = document.querySelectorAll('[id=colvariant]');
+
+            // var border = 'hover-border';
+
+            // for (var i = 0; i < border_color.length; ++i) {
+            // border_color[i].classList.remove(black_dark);
+            // border_color[i].classList.add(white_light);
+            // }
+
             // console.log(prod_id);
 
             $.ajaxSetup({
@@ -494,115 +603,229 @@
                 },
                 success: function(data) {
                     var variant = data.variant;
-                    console.log(variant);
+                    if(variant.type == "Color"){
+                        var colorval = variant.id;
+                        $("#color_id").val(colorval);
+                        // var testval = $("#color_id").val();
+                        // console.log(testval);
+                    }
+                    if(variant.type == "Storage"){
+                        var storageval = variant.id;
+                        $("#storage_id").val(storageval);
+                        // var stestval = $("#storage_id").val();
+                        // console.log(stestval);
+                    }
+                    // console.log(variant);
                     $('#prod-price').html("£" + variant.price);
                     var productImages = variant.variantimage;
 
                     // console.log(productImages);
-                    // if (productImages.length > 0) {
+                    if (productImages.length > 0) {
 
-                    //     // setTimeout(() => {
-                    //         $('#prod_img').html(' <div class="product-single-carousel owl-carousel owl-theme show-nav-hover" id="testing"></div>');
-                    //         productImages.forEach(function(img) {
-                    //             $("#testing").append(`<div class="product-item">
-                    //                     <img class="product-single-image" src="{{ asset('images/products') }}/${img.image}" data-zoom-image="assets/images/products/zoom/product-1-big.jpg" width="468" height="468" alt="product" />
-                    //                     <div class="zoomContainer"style="-webkit-transform: translateZ(0);position:absolute;left:0px;top:0px;height:478px;width:478px;">
-                    //                     <div class="zoomWindowContainer" style="width: 400px;">
-                    //                         <div style="z-index: 999; overflow: hidden; margin-left: 0px; margin-top: 0px; background-position: 0px 0px; width: 478px; height: 478px; float: left; cursor: grab; background-repeat: no-repeat; position: absolute; background-image: url('http://ecommerce.test:8080/images/products/red-iphone1.png';); top: 0px; left: 0px; display: none;" class="zoomWindow" >
-                    //                         </div>
-                    //                     </div>
-                    //                 </div>
-                    //                 </div>`);
-                    //         });
-                    //         var owl = $("#testing");
-                    //         owl.owlCarousel({
-                    //             margin: 0,
-                    //                 nav: !0,
-                    //                 loop: !1,
-                    //                 dotsContainer: "#carousel-custom-dots",
-                    //                 autoplay: !1,
-                    //                 onResized: function () {
-                    //                     var e = this.$element;
-                    //                     t.fn.elevateZoom &&
-                    //                         e.find("img").each(function () {
-                    //                             var e = t(this),
-                    //                                 i = {
-                    //                                     responsive: !0,
-                    //                                     zoomWindowFadeIn: 350,
-                    //                                     zoomWindowFadeOut: 200,
-                    //                                     borderSize: 0,
-                    //                                     zoomContainer:
-                    //                                         e.parent(),
-                    //                                     zoomType: "inner",
-                    //                                     cursor: "grab",
-                    //                                 };
-                    //                             e.elevateZoom(i);
-                    //                         });
-                    //                 },
-                    //                 onInitialized: function () {
-                    //                     var e = this.$element;
-                    //                     t.fn.elevateZoom &&
-                    //                         e.find("img").each(function () {
-                    //                             var e = t(this),
-                    //                                 i = {
-                    //                                     responsive: !0,
-                    //                                     zoomWindowFadeIn: 350,
-                    //                                     zoomWindowFadeOut: 200,
-                    //                                     borderSize: 0,
-                    //                                     zoomContainer:
-                    //                                         e.parent(),
-                    //                                     zoomType: "inner",
-                    //                                     cursor: "grab",
-                    //                                 };
-                    //                             e.elevateZoom(i);
-                    //                         });
-                    //                 },
-                    //         })
-                    //         alert("Please wait...");
-                    //     // }, 5000);
+                        // setTimeout(() => {
+                            var temp = '';
+                            $('#prod_img').html('<div class="your-class" id="testing"></div>');
+                            $("#dotsilck").html('<div class="prod-thumbnail silck-dots" id="silk-dot"></div>');
+                            productImages.forEach(function(img) {
+
+                                $("#testing").append(`<div class="product-item">
+                                        <img class="product-single-image" src="{{ asset('images/products') }}/${img.image}" data-zoom-image="assets/images/products/zoom/product-1-big.jpg" width="468" height="468" alt="product" />
+                                    </div>`);
+
+                                $("#silk-dot").append(` <div class="owl-dot">
+                                <img src="{{ asset('images/products') }}/${img.image}" width="110" height="110"
+                                    alt="product-thumbnail" />
+                                </div>`);
+                            });
+                            var carsilck = $("#testing");
+                            var silk_dot = $("#silk-dot")
+                            $(carsilck).slick({
+                                speed: 300,
+                                slidesToShow: 1,
+                                slidesToScroll: 1,
+                                asNavFor: silk_dot,
+                                loop: false,
+                            });
+                            $(silk_dot).slick({
+                                slidesToShow: 3,
+                                slidesToScroll: 0,
+                                asNavFor: carsilck,
+                                dots: false,
+                                centerMode: true,
+                                focusOnSelect: true
+                                });
+                                var head = document.head;
+                                var link = document.createElement('link');
+
+
+
+                                link.type = 'text/css';
+
+
+                                link.rel = 'stylesheet';
+
+
+                                link.href = "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css";
+
+
+
+                                head.appendChild(link);
+
+
+
+
+                        // }, 5000);
 
 
 
 
 
 
-                    //     // var dotowl = '';
-                    //     // productImages.forEach(function(img) {
-                    //     // dotowl += `<div class="owl-dot">
-                    //     //     <img src="{{ asset('images/products') }}/${img.image}" width="110" height="110" alt="product-thumbnail" />
-                    //     // </div>`;
-                    //     // })
-                    //     // $('#dot-owl').html(dotowl);
+                        // var dotowl = '';
+                        // productImages.forEach(function(img) {
+                        // dotowl += `<div class="owl-dot">
+                        //     <img src="{{ asset('images/products') }}/${img.image}" width="110" height="110" alt="product-thumbnail" />
+                        // </div>`;
+                        // })
+                        // $('#dot-owl').html(dotowl);
 
 
 
 
-                    //     // var script = document.createElement('script');
-                    //     // script.src = '/assets/js/main.min.js'; // Replace with the correct path to custom.js
-                    //     // script.type = 'text/javascript';
+                        // var script = document.createElement('script');
+                        // script.src = '/assets/js/main.min.js'; // Replace with the correct path to custom.js
+                        // script.type = 'text/javascript';
 
-                    //     // console.log(script);
+                        // console.log(script);
 
-                    //     // // Append the script to the document body to load it
-                    //     // document.body.appendChild(script);
-
-
-
-
-
-                    //     // $('#prod_img').owlCarousel({
-                    //     //     items: 1,
-                    //     //     loop: true,
-                    //     //     autoplay: true,
-                    //     //     nav: true,
-                    //     //     dots: false
-                    //     //     // Add more options as needed
-                    //     // });
+                        // // Append the script to the document body to load it
+                        // document.body.appendChild(script);
 
 
 
 
 
+                        // $('#prod_img').owlCarousel({
+                        //     items: 1,
+                        //     loop: true,
+                        //     autoplay: true,
+                        //     nav: true,
+                        //     dots: false
+                        //     // Add more options as needed
+                        // });
+
+
+
+
+
+                    }
+                //     if (productImages.length > 0) {
+                //     $("#dotsilck").append(` <div class="prod-thumbnail silck-dots"  id="silk-dot"></div>`);
+                //                 productImages.forEach(function(img) {
+                //                     $("#silk-dot").append(` <div class="owl-dot">
+                //                 <img src="{{ asset('images/products') }}/${img.image}" width="110" height="110"
+                //                     alt="product-thumbnail" />
+                //                 </div>`);
+                //     })
+                // }
+
+
+
+
+                }
+
+            })
+            // alert(variant_id);
+        })
+    })
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        $(".storagevariants").click(function(e) {
+            var variant_id = $(this).attr("id")
+            var prod_id = $('#prod_id').val();
+
+            $(".storagevariants").removeClass("border-active");
+            $(this).addClass("border-active");
+
+            // $('[class=colvariant]').addClass("border");
+            // $(this).addClass("test");
+            // var border_color = document.querySelectorAll('[id=colvariant]');
+
+            // var border = 'hover-border';
+
+            // for (var i = 0; i < border_color.length; ++i) {
+            // border_color[i].classList.remove(black_dark);
+            // border_color[i].classList.add(white_light);
+            // }
+
+            // console.log(prod_id);
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: "{{ route('variant') }}",
+                type: "get",
+                data: {
+                    'variant_id': variant_id,
+                    'prod_id' : prod_id,
+                },
+                success: function(data) {
+                    var variant = data.variant;
+                    if(variant.type == "Color"){
+                        var colorval = variant.id;
+                        $("#color_id").val(colorval);
+                        // var testval = $("#color_id").val();
+                        // console.log(testval);
+                    }
+                    if(variant.type == "Storage"){
+                        var storageval = variant.id;
+                        $("#storage_id").val(storageval);
+                        // var stestval = $("#storage_id").val();
+                        // console.log(stestval);
+                    }
+                    // console.log(variant);
+                    $('#prod-price').html("£" + variant.price);
+                    var productImages = variant.variantimage;
+
+                    // console.log(productImages);
+                    if (productImages.length > 0) {
+
+                            productImages.forEach(function(img) {
+                                $("#prod_img").append(`<div class="product-item">
+                                        <img class="product-single-image" src="{{ asset('images/products') }}/${img.image}" data-zoom-image="assets/images/products/zoom/product-1-big.jpg" width="468" height="468" alt="product" />
+                                    </div>`);
+                            });
+
+
+
+
+
+
+                        // var dotowl = '';
+                        // productImages.forEach(function(img) {
+                        // dotowl += `<div class="owl-dot">
+                        //     <img src="{{ asset('images/products') }}/${img.image}" width="110" height="110" alt="product-thumbnail" />
+                        // </div>`;
+                        // })
+                        // $('#dot-owl').html(dotowl);
+
+
+
+
+                        // var script = document.createElement('script');
+                        // script.src = '/assets/js/main.min.js'; // Replace with the correct path to custom.js
+                        // script.type = 'text/javascript';
+
+                        // console.log(script);
+
+                        // // Append the script to the document body to load it
+                        // document.body.appendChild(script);
 
 
 
@@ -615,7 +838,16 @@
 
 
 
-                    // }
+
+
+
+
+
+
+
+
+
+                    }
 
 
 

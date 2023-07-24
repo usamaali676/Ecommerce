@@ -31,6 +31,10 @@
                     @endphp
                     <tbody>
                         @foreach ($cartItem as $item)
+
+                        {{-- @php
+                            $color = App\Models\Variant::where('id', $item->color_id)->first();
+                        @endphp --}}
                             <tr class="product-row">
                                 <td>
                                     <figure class="product-image-container">
@@ -50,6 +54,18 @@
                                 <td class="product-col">
                                     <h5 class="product-title">
                                         <a href="{{route('singleproduct', $item->product->slug)}}">{{$item->product->name}}</a>
+                                        <div class="d-flex">
+                                            @if (isset($item->color->name))
+                                            <div class="cart-attribute">
+                                                <p>{{$item->color->name}}</p>
+                                            </div>
+                                            @endif
+                                            @if (isset($item->storage->name))
+                                            <div class="cart-attribute">
+                                                <p>{{$item->storage->name}}</p>
+                                            </div>
+                                            @endif
+                                        </div>
                                     </h5>
                                 </td>
                                 <td>£{{$item->product->price}}</td>

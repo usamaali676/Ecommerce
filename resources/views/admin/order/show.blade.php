@@ -111,6 +111,18 @@
                                         <tr style="vertical-align: middle">
                                             <th >{{$srno++}}</th>
                                             <td>{{$item->products->name}}</td>
+                                            <div class="d-flex">
+                                                @if (isset($item->color->name))
+                                                <div class="cart-attribute">
+                                                    <p>{{$item->color->name}}</p>
+                                                </div>
+                                                @endif
+                                                @if (isset($item->storage->name))
+                                                <div class="cart-attribute">
+                                                    <p>{{$item->storage->name}}</p>
+                                                </div>
+                                                @endif
+                                            </div>
                                             <td>{{$item->qty}}</td>
                                             <td>£{{$item->price}}</td>
                                             <td>

@@ -2725,6 +2725,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
 }
 
 .banner img {
+    height: 330px;
     width: 100%;
     object-fit: cover
 }

@@ -58,6 +58,8 @@ class OrderController extends Controller
                 'prod_id' => $item->prod_id,
                 'qty' => $item->prod_qty,
                 'price' => $subtotal,
+                'color_id' => $item->color_id,
+                'storage_id' => $item->storage_id,
             ]);
             $prod = Product::where('id', $item->prod_id)->first();
             $prod->qty = $prod->qty - $item->prod_qty;

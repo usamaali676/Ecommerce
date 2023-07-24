@@ -2725,6 +2725,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
 }
 
 .banner img {
+    height: 330px;
     width: 100%;
     object-fit: cover
 }
@@ -14966,7 +14967,7 @@ span.toggle:before {
 
 .product-single-details .new-price {
     color: #222529;
-    font-size: 2.4rem;
+    font-size: 4.4rem;
     letter-spacing: -0.02em;
     vertical-align: middle;
     line-height: 0.8;
@@ -18851,4 +18852,8 @@ aside .widget-info i {
     font-size: 0.75em;
     padding: 1em 2em;
     font-weight: 600
+}
+.product-single-details .d-flex span {
+    font-size: 17px;
+    padding: 0 0 15px 0;
 }

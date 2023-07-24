@@ -17118,8 +17118,8 @@ p {
 .variant-box {
     text-align: center;
     padding: 10px;
-    border: 1px solid #d9d9d9;
-    margin: 10px;
+    /* border: 1px solid #d9d9d9; */
+    margin: 0px;
     border-radius: 10px;
     background-color: #F3F3F3;
 }
@@ -17128,13 +17128,34 @@ p {
     color: #484848;
 }
 .storage{
-border: 1px solid #cbcbcb;
-margin: 0px 5px;
+/* border: 1px solid #cbcbcb; */
     padding: 5px 15px;
-    border-radius: 5px;
+    border-radius: 10px;
     background-color: #F3F3F3;
 }
 .storage p {
     margin: 0px;
     color: #505050;
+}
+.border-active{
+    border-color: #FFD400 !important;
+    border-radius: 10px;
+
+}
+a.variants {
+    margin: 10px;
+    border: 1px solid #cbcbcb;
+    border-radius: 10px;
+}
+a.storagevariants {
+    border: 1px solid #cbcbcb;
+    margin: 10px;
+    border-radius: 10px;
+}
+.cart-attribute p {
+    padding: 5px 20PX;
+    background: #F3F3F3;
+    margin: 5px;
+    border-radius: 10px;
+    border: 1px solid #aeaeae;
 }

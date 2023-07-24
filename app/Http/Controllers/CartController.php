@@ -17,6 +17,8 @@ class CartController extends Controller
     {
         $product_id  = $request->input('product_id');
         $product_qty = $request->input('product_qty');
+        $color_id = $request->input('color_id');
+        $storage_id = $request->input('storage_id');
 
         if(Auth::check())
         {
@@ -37,6 +39,8 @@ class CartController extends Controller
                         $cartItem->prod_id = $product_id;
                         $cartItem->user_id = Auth::id();
                         $cartItem->prod_qty = $product_qty;
+                        $cartItem->color_id = $color_id;
+                        $cartItem->storage_id = $storage_id;
                         $cartItem->save();
                         return response()->json(['status' => $product_check->name." Added to Cart"]);
                     }

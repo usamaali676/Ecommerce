@@ -113,7 +113,7 @@ class VariantController extends Controller
             }
 
         }
-        Alert::success('Succecc', "Variant Updated Successfully");
+        Alert::success('Success', "Variant Updated Successfully");
         return redirect()->route('product.index');
     }
 
@@ -124,7 +124,7 @@ class VariantController extends Controller
     {
         $variant = Variant::find($id);
         $variant->delete();
-        Alert::success('Succecc', "Variant Removed Successfully");
+        Alert::success('Success', "Variant Removed Successfully");
         return redirect()->route('product.index');
     }
 
