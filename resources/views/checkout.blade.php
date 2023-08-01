@@ -1,4 +1,11 @@
 @extends('Frontlayout.master')
+@section('css')
+<style>
+    .hide {
+        display: none;
+    }
+</style>
+@endsection
 @section('content')
 <div class="container checkout-container">
     <ul class="checkout-progress-bar d-flex justify-content-center flex-wrap">
@@ -91,36 +98,55 @@
             <ul class="checkout-steps">
                 <li>
                     <h2 class="step-title">Billing details</h2>
+                    @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                    <div class="error" style="color: red">{{$error}}</div>
+                @endforeach
+                @endif
 
-             <form action="{{route('order.placeorder')}}" method="POST" >
+                @if (Session::has('success'))
+                <div class="alert alert-success text-center">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                    <p>{{ Session::get('success') }}</p>
+                </div>
+            @endif
+
+             <form action="{{route('order.placeorder')}}" class="require-validation" method="POST"  data-stripe-publishable-key="{{ env('STRIPE_KEY') }}" id="payment-form">
                 @csrf
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <h5>Payment Method</h5>
                                     <div class="paymetn-method d-flex">
-                                        <input type="radio" id="stripe" onclick="javascript:yesnoCheck();" name="payment_method" value="stripe">
+                                        <input type="radio" id="stripe" onclick="javascript:yesnoCheck();" name="payment_method" class="pay_method" value="stripe">
                                         <label for="stripe">
                                             <img src="{{asset('assets/images/stripe.png')}}" style="width: 50%" alt="">
                                         </label>
                                     </div>
                                     <div class="paymetn-method d-flex">
-                                        <input type="radio" id="paypal" onclick="javascript:yesnoCheck();" name="payment_method" value="paypal">
+                                        <input type="radio" id="paypal" onclick="javascript:yesnoCheck();" name="payment_method" class="pay_method" value="paypal">
                                         <label for="paypal">
                                             <img src="{{asset('assets/images/paypal.png')}}" style="width: 50%" alt="">
                                         </label>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-12 error form-group hide">
+                                        <div class="alert-danger alert">Please correct the errors and try
+                                            again.</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="card-paymentfeilds" id="card-feilds" style="display: none">
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Name on Card
                                             <abbr class="required" title="required">*</abbr>
                                         </label>
-                                        <input type="text" name="card_name" class="form-control" placeholder="Name on Card" required />
+                                        <input type="text" name="card_name" class="form-control" placeholder="Name on Card"  />
                                     </div>
                                 </div>
 
@@ -128,25 +154,32 @@
                                     <div class="form-group">
                                         <label>Card Number
                                             <abbr class="required" title="required">*</abbr></label>
-                                        <input type="text" name="card_number" class="form-control" placeholder="Card Number" required />
+                                        <input type="text" name="card_number" class="form-control card-number" placeholder="Card Number"  />
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>CVV
                                             <abbr class="required" title="required">*</abbr>
                                         </label>
-                                        <input type="text" name="cvv" class="form-control card-cvc" placeholder="CVV" required />
+                                        <input type="text" name="cvv" class="form-control card-cvc" placeholder="CVV" maxlength="3" >
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Expiration Date
+                                        <label>Expiration Month
                                             <abbr class="required" title="required">*</abbr></label>
-                                        <input type="text" name="expiration_date" class="form-control" placeholder="Expiration Date" required />
+                                        <input type="text" name="expiration_month" class="form-control card-expiry-month" placeholder="MM"  />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Expiration Year
+                                            <abbr class="required" title="required">*</abbr></label>
+                                        <input type="text" name="expiration_year" class="form-control card-expiry-year" placeholder="YYYY"  />
                                     </div>
                                 </div>
                             </div>
@@ -308,7 +341,7 @@
                             </div>
                         </div> --}}
 
-                <button type="submit" class="btn btn-dark btn-place-order" >
+                <button type="submit" class="btn btn-dark btn-place-order" @if ($total < 1) disabled @endif >
                     Place order
                 </button>
             </form>
@@ -331,6 +364,90 @@
            document.getElementById('card-feilds').style.display = 'none';
         }
     }
+</script>
+
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+
+<script type="text/javascript">
+
+$(function() {
+
+    /*------------------------------------------
+    --------------------------------------------
+    Stripe Payment Code
+    --------------------------------------------
+    --------------------------------------------*/
+
+
+    var $form = $(".require-validation");
+
+
+    $('form.require-validation').bind('submit', function(e) {
+        var paymentmethod = $('input[name="payment_method"]:checked').val();
+        // alert(paymentmethod);
+
+    if (paymentmethod == "stripe"){
+        // alert("stripe");
+
+        var $form = $(".require-validation"),
+        inputSelector = ['input[type=email]', 'input[type=password]',
+                         'input[type=text]', 'input[type=file]',
+                         'textarea'].join(', '),
+        $inputs = $form.find('.required').find(inputSelector),
+        $errorMessage = $form.find('div.error'),
+        valid = true;
+        $errorMessage.addClass('hide');
+
+        $('.has-error').removeClass('has-error');
+        $inputs.each(function(i, el) {
+          var $input = $(el);
+          if ($input.val() === '') {
+            $input.parent().addClass('has-error');
+            $errorMessage.removeClass('hide');
+            e.preventDefault();
+          }
+        });
+
+        if (!$form.data('cc-on-file')) {
+          e.preventDefault();
+          Stripe.setPublishableKey($form.data('stripe-publishable-key'));
+          Stripe.createToken({
+            number: $('.card-number').val(),
+            cvc: $('.card-cvc').val(),
+            exp_month: $('.card-expiry-month').val(),
+            exp_year: $('.card-expiry-year').val()
+          }, stripeResponseHandler);
+        }
+
+    }
+    else {
+        $form.get(0).submit();
+    }
+
+    });
+
+    /*------------------------------------------
+    --------------------------------------------
+    Stripe Response Handler
+    --------------------------------------------
+    --------------------------------------------*/
+    function stripeResponseHandler(status, response) {
+        if (response.error) {
+            $('.error')
+                .removeClass('hide')
+                .find('.alert')
+                .text(response.error.message);
+        } else {
+            /* token contains id, last4, and card type */
+            var token = response['id'];
+
+            $form.find('input[type=text]').empty();
+            $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
+            $form.get(0).submit();
+        }
+    }
+
+});
 </script>
 
 @endsection

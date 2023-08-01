@@ -9,12 +9,13 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Env;
 use Illuminate\Support\Facades\Auth;
-use RealRashid\SweetAlert\Facades\Alert;
 use Srmklive\PayPal\Services\ExpressCheckout;
 use Srmklive\PayPal\Facades\PayPal;
 use Stripe\Exception\CardException;
 use Stripe\StripeClient;
 use Stripe\Stripe;
+use Stripe\Charge;
+use RealRashid\SweetAlert\Facades\Alert;
 
 
 
@@ -54,80 +55,124 @@ class OrderController extends Controller
                 'card_name' => 'required',
                'card_number' => 'required',
                'cvv' =>'required',
-               'expiration_date' => 'required',
-
             ]);
 
             // $token = $this->createToken($request);
 
-            Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-            Stripe\Charge::create ([
+            Stripe::setApiKey(env('STRIPE_SECRET'));
+           $payment = Charge::create ([
                 "amount" => $request->total_price,
-                "currency" => "INR",
-                // "source" => $token['id'],
+                "currency" => "GBP",
+                "source" => $request->stripeToken,
         ]);
-        Alert::succes('Succes', "Payment successful");
-        return redirect()->route('fronthome');
 
+        if ($payment->status === 'succeeded') {
+            $order = new Order();
+            $order->fname = $request->fname;
+            $order->lname = $request->lname;
+            $order->user_id = Auth::user()->id;
+            $order->email = $request->email;
+            $order->phone = $request->phone;
+            $order->country = $request->country;
+            $order->city = $request->city;
+            $order->state = $request->state;
+            $order->street_address = $request->address;
+            $order->zip = $request->zip;
+            $order->total_price = $request->total_price;
+            $order->notes = $request->notes;
+            $order->status = 0;
+            $order->tracking_no = 'Insha'.rand(1111,9999);
+            $order->save();
+
+
+            $cartitem = Cart::where('user_id', Auth::user()->id)->get();
+            foreach($cartitem as $item)
+            {
+                $subtotal = $item->product->price * $item->prod_qty;
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'prod_id' => $item->prod_id,
+                    'qty' => $item->prod_qty,
+                    'price' => $subtotal,
+                    'color_id' => $item->color_id,
+                    'storage_id' => $item->storage_id,
+                ]);
+                $prod = Product::where('id', $item->prod_id)->first();
+                $prod->qty = $prod->qty - $item->prod_qty;
+                $prod->update();
+                }
+                $cartitem = Cart::where('user_id', Auth::user()->id)->get();
+                Cart::destroy($cartitem);
+
+
+            Alert::success('Succes', "Order Placed Successfully");
+            return redirect()->route('fronthome');
+        }
+        else {
+            Alert::error('OOps', "Payment Failed");
+            return redirect()->back();
+        }
 
         }
-        $order = new Order();
-        $order->fname = $request->fname;
-        $order->lname = $request->lname;
-        $order->user_id = Auth::user()->id;
-        $order->email = $request->email;
-        $order->phone = $request->phone;
-        $order->country = $request->country;
-        $order->city = $request->city;
-        $order->state = $request->state;
-        $order->street_address = $request->address;
-        $order->zip = $request->zip;
-        $order->total_price = $request->total_price;
-        $order->notes = $request->notes;
-        $order->status = 0;
-        $order->tracking_no = 'Insha'.rand(1111,9999);
-        $order->save();
+        if($request->payment_method == "paypal"){
+            $order = new Order();
+            $order->fname = $request->fname;
+            $order->lname = $request->lname;
+            $order->user_id = Auth::user()->id;
+            $order->email = $request->email;
+            $order->phone = $request->phone;
+            $order->country = $request->country;
+            $order->city = $request->city;
+            $order->state = $request->state;
+            $order->street_address = $request->address;
+            $order->zip = $request->zip;
+            $order->total_price = $request->total_price;
+            $order->notes = $request->notes;
+            $order->status = 0;
+            $order->tracking_no = 'Insha'.rand(1111,9999);
+            $order->save();
 
 
-        $cartitem = Cart::where('user_id', Auth::user()->id)->get();
-        foreach($cartitem as $item)
-        {
-            $subtotal = $item->product->price * $item->prod_qty;
-            OrderItem::create([
-                'order_id' => $order->id,
-                'prod_id' => $item->prod_id,
-                'qty' => $item->prod_qty,
-                'price' => $subtotal,
-                'color_id' => $item->color_id,
-                'storage_id' => $item->storage_id,
-            ]);
-            $prod = Product::where('id', $item->prod_id)->first();
-            $prod->qty = $prod->qty - $item->prod_qty;
-            $prod->update();
+            $cartitem = Cart::where('user_id', Auth::user()->id)->get();
+            foreach($cartitem as $item)
+            {
+                $subtotal = $item->product->price * $item->prod_qty;
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'prod_id' => $item->prod_id,
+                    'qty' => $item->prod_qty,
+                    'price' => $subtotal,
+                    'color_id' => $item->color_id,
+                    'storage_id' => $item->storage_id,
+                ]);
+                $prod = Product::where('id', $item->prod_id)->first();
+                $prod->qty = $prod->qty - $item->prod_qty;
+                $prod->update();
+            }
+            $cartitem = Cart::where('user_id', Auth::user()->id)->get();
+            Cart::destroy($cartitem);
+
+            $data = [];
+            $data['items'] = [];
+            $data['invoice_description'] = "Insha Trading";
+            $data['invoice_id'] = $order->id;
+
+            $data['return_url'] = route('order.payment.success');
+            $data['cancel_url'] = route('order.payment.cancel');
+            $data['total'] = $request->total_price;
+
+
+            $provider = new ExpressCheckout();
+            $response = $provider->setExpressCheckout($data);
+            $response = $provider->setExpressCheckout($data, true);
+
+            return redirect($response['paypal_link']);
+
+            // dd($request->all());
+
+            Alert::success('Success', "Order Placed Successfully");
+            return redirect()->route('fronthome');
         }
-        $cartitem = Cart::where('user_id', Auth::user()->id)->get();
-        Cart::destroy($cartitem);
-
-        $data = [];
-        $data['items'] = [];
-        $data['invoice_description'] = "Insha Trading";
-        $data['invoice_id'] = $order->id;
-
-        $data['return_url'] = route('order.payment.success');
-        $data['cancel_url'] = route('order.payment.cancel');
-        $data['total'] = $request->total_price;
-
-
-        $provider = new ExpressCheckout();
-        $response = $provider->setExpressCheckout($data);
-        $response = $provider->setExpressCheckout($data, true);
-
-        return redirect($response['paypal_link']);
-
-        // dd($request->all());
-
-        Alert::success('Success', "Order Placed Successfully");
-        return redirect()->route('fronthome');
     }
     public function index()
     {

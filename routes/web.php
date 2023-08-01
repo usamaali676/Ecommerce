@@ -144,3 +144,6 @@ use Illuminate\Support\Facades\Auth;
 
 
 
+
+
+Addchat::routes();

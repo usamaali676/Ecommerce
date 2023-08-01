@@ -37,6 +37,8 @@
     <link rel="stylesheet" href="{{asset('assets/css/style.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/fontawesome-free/css/all.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/simple-line-icons/css/simple-line-icons.min.css')}}">
+    {{-- <link href="{{ asset('assets/addchat/css/addchat.min.css') }}" rel="stylesheet"> --}}
+
     {{-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/assets/css/chat.min.css"> --}}
 
         @yield('css')

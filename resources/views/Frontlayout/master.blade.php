@@ -67,7 +67,14 @@
 
     <a id="scroll-top" href="#top" title="Top" role="button"><i class="icon-angle-up"></i></a>
 
+<!-- 2. AddChat widget -->
+<div id="addchat_app"
+    data-baseurl="<?php echo url('') ?>"
+    data-csrfname="<?php echo 'X-CSRF-Token' ?>"
+    data-csrftoken="<?php echo csrf_token() ?>"
+></div>
     @include('Frontlayout.partial.script')
+
     @yield('js')
 </body>
 
