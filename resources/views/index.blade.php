@@ -128,18 +128,31 @@
     }">
         <div class="row">
             {{-- <div class="col-sm-3"> --}}
-                <div class="banner banner1 grid-item banner-md-vw w-25 w-md-100 text-transform-none w-xxs-100 appear-animate" data-animation-name="fadeInUpShorter" data-animation-delay="100" data-animation-duration="1000" data-md-order="1">
+                <div class="banner banner1 grid-item banner-md-vw w-50 w-md-100 text-transform-none w-xxs-100 appear-animate" data-animation-name="fadeInUpShorter" data-animation-delay="100" data-animation-duration="1000" data-md-order="1">
                     <figure>
                         <img src="{{asset('assets/images/demoes/demo2/banners/banner-1.jpg')}}" style="background-color: #ccc;" alt="banner">
                     </figure>
 
-                    <div class="banner-layer banner-layer-middle text-right">
-                        <h4 class="banner-layer-circle-item ml-auto mb-2 ls-0">40<sup>%<small
-                                    class="ls-0">OFF</small></sup></h4>
-                        <h5 class="m-b-3 ls-0"><del class="d-block m-b-2">£450</del>£270</h5>
-                        <h4 class="m-b-1 ls-n-0">Lorem Ipsum</h4>
-                        <h3 class="mb-0 ls-0">dolor sit</h3>
+
+                <div class="banner-layer banner-layer-middle d-flex align-items-end flex-column text-dark">
+                    <h3 class="m-b-3 text-dark text-right ls-0">Lorem Ipsum Dolor <br>Sit doer</h3>
+
+                    <div class="coupon-sale-content">
+                        <h4 class="mb-1 coupon-sale-text bg-white d-block ls-n-10 text-transform-none">
+                            Sit elquaible doer
+                        </h4>
+                        <h5 class="coupon-sale-text text-dark ls-n-10 p-0"><i class="ls-0">UP TO</i><b class="text-dark">£100</b> OFF</h5>
+                        <a href="#" class="btn btn-block btn-dark btn-black">Get Yours!</a>
                     </div>
+                </div>
+
+                    {{-- <div class="banner-layer banner-layer-middle text-right">
+                        <h4 class="banner-layer-circle-item ml-auto mb-2 ls-0">40<sup>%<small
+                                    class="ls-0">OFF</small></sup></h4> --}}
+                        {{-- <h5 class="m-b-3 ls-0"><del class="d-block m-b-2">£450</del>£270</h5> --}}
+                        {{-- <h4 class="m-b-1 ls-n-0">Lorem Ipsum</h4>
+                        <h3 class="mb-0 ls-0">dolor sit</h3>
+                    </div> --}}
                 </div>
                 <!-- End .banner -->
             {{-- </div> --}}
@@ -163,7 +176,7 @@
             </div>
             <!-- End .banner -->
 
-            <div class="banner banner4 grid-item banner-md-vw w-25 w-md-100 w-xxs-100 appear-animate" data-animation-name="fadeInUpShorter" data-animation-delay="300" data-animation-duration="1000" data-md-order="7">
+            {{-- <div class="banner banner4 grid-item banner-md-vw w-25 w-md-100 w-xxs-100 appear-animate" data-animation-name="fadeInUpShorter" data-animation-delay="300" data-animation-duration="1000" data-md-order="7">
                 <figure>
                     <img src="{{asset('assets/images/demoes/demo2/banners/banner-4.jpg')}}" style="background-color: #444;" alt="banner">
                 </figure>
@@ -173,16 +186,16 @@
                     <h4 class="text-white ls-n-20">Starting<br>AT <sup>£</sup>199<sup>99</sup></h4>
                     <a href="#" class="btn btn-light ls-10">View Now</a>
                 </div>
-            </div>
+            </div> --}}
             <!-- End .banner -->
         {{-- </div> --}}
         {{-- <div class="row"> --}}
 
-            <div class="banner banner5 grid-item banner-md-vw text-transform-none w-25 w-md-100 w-xxs-100 appear-animate" data-animation-name="fadeInUpShorter" data-animation-delay="400" data-animation-duration="1000" data-md-order="8">
+            <div class="banner banner5 grid-item banner-md-vw w-25 w-md-100 w-xxs-100 appear-animate" data-animation-name="fadeInUpShorter" data-animation-delay="400" data-animation-duration="1000" data-md-order="8">
                 <figure>
                     <img src="{{asset('assets/images/demoes/demo2/banners/banner-5.jpg')}}" style="background-color: #ccc;" alt="banner">
                 </figure>
-                <div class="banner-layer banner-layer-top">
+                <div class="banner-layer banner-layer-top text-white">
                     <h4 class="heading-border">Lorem Ipsum</h4>
                     <h3 class="ls-0 mb-1">Sit elquaible doer</h3>
                     <hr class="mb-1 mt-1">

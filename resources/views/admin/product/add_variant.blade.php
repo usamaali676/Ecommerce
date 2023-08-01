@@ -51,6 +51,10 @@
                             <label for="inputPassword5" class="form-label">Price</label>
                             <input type="text" name="price" class="form-control" id="inputPassword5">
                         </div>
+                        <div class="col-md-12">
+                            <label for="color" class="form-label">Color</label>
+                            <input type="text" name="color" class="form-control" id="color">
+                        </div>
                         <div class="col-12">
                             <label for="image" class="form-label">Image (Dimensions 300 x 300)</label>
                             <input class="form-control" name="images[]" type="file" id="fileToUpload" multiple="multiple">

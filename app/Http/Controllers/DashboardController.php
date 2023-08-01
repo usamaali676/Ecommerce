@@ -16,7 +16,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $product = Product::limit(12)->get();
+        $product = Product::where('status' , 1)->orderBy('priority','ASC')->limit(12)->get();
         $category = Category::all();
         return view('index', compact('product', 'category'));
     }
@@ -30,7 +30,7 @@ class DashboardController extends Controller
     }
     Public function allproducts()
     {
-        $products = Product::where('status', 1)->paginate('12');
+        $products = Product::where('status' , 1)->orderBy('priority','ASC')->paginate('2');
         $category = Category::withcount('prod')->get();
         // dd($category);
         return view('products', compact('products','category'));
@@ -144,7 +144,7 @@ class DashboardController extends Controller
     public function search(Request $request)
     {
         $products = Product::where('category_id', $request->cat)
-        ->where('name', 'LIKE', "%{$request->name}%")->paginate(10);
+        ->orwhere('name', 'LIKE', "%{$request->name}%")->paginate(10);
         $category = Category::all();
         return view('products', compact('products','category'));
     }

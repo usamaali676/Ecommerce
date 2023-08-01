@@ -60,6 +60,16 @@
                             <input type="text" name="price" value="{{$product->price}}" class="form-control"
                                 id="inputPassword5">
                         </div>
+                        <div class="col-md-6">
+                            <label for="inputEmail5" class="form-label">Storage</label>
+                            <input type="text" name="storage" value="{{$product->storage}}" class="form-control"
+                                id="inputEmail5">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputPassword5" class="form-label">Color</label>
+                            <input type="text" name="color" value="{{$product->color}}" class="form-control"
+                                id="inputPassword5">
+                        </div>
                         <div class="col-12">
                             <label for="image" class="form-label">Image</label>
                             @foreach ($product->prodimage as $item)
@@ -77,9 +87,13 @@
                             <textarea name="description" class="ckeditor form-control"
                                 id="editor">{!! $product->description !!}</textarea>
                         </div>
-                        <div class="col-12">
+                        <div class="col-6">
                             <label for="qty" class="form-label">Quantity</label>
                             <input type="number" class="form-control" name="qty" value="{{$product->qty}}">
+                        </div>
+                        <div class="col-6">
+                            <label for="qty" class="form-label">Priority</label>
+                            <input type="number" class="form-control" name="priority" value="{{$product->priority}}">
                         </div>
                         <div class="col-12" style="margin: 25px 0px;">
                             {{-- <p>Status</p> --}}

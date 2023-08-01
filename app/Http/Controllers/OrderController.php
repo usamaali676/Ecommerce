@@ -7,10 +7,15 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Env;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use Srmklive\PayPal\Services\ExpressCheckout;
 use Srmklive\PayPal\Facades\PayPal;
+use Stripe\Exception\CardException;
+use Stripe\StripeClient;
+use Stripe\Stripe;
+
 
 
 class OrderController extends Controller
@@ -18,8 +23,21 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+
+
+     private $stripe;
+     public function __construct()
+     {
+         $this->stripe = new StripeClient(env('STRIPE_SECRET'));
+     }
+
+
+
     public function placeorder(Request $request)
     {
+        // dd($request->stripeToken);
+
         $request->validate([
             'fname' => 'required',
             'lname' => 'required',
@@ -31,6 +49,28 @@ class OrderController extends Controller
             'phone' => 'required',
             'email' => 'required',
         ]);
+        if($request->payment_method == "stripe"){
+            $request->validate([
+                'card_name' => 'required',
+               'card_number' => 'required',
+               'cvv' =>'required',
+               'expiration_date' => 'required',
+
+            ]);
+
+            // $token = $this->createToken($request);
+
+            Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+            Stripe\Charge::create ([
+                "amount" => $request->total_price,
+                "currency" => "INR",
+                // "source" => $token['id'],
+        ]);
+        Alert::succes('Succes', "Payment successful");
+        return redirect()->route('fronthome');
+
+
+        }
         $order = new Order();
         $order->fname = $request->fname;
         $order->lname = $request->lname;

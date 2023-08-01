@@ -97,6 +97,63 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <h5>Payment Method</h5>
+                                    <div class="paymetn-method d-flex">
+                                        <input type="radio" id="stripe" onclick="javascript:yesnoCheck();" name="payment_method" value="stripe">
+                                        <label for="stripe">
+                                            <img src="{{asset('assets/images/stripe.png')}}" style="width: 50%" alt="">
+                                        </label>
+                                    </div>
+                                    <div class="paymetn-method d-flex">
+                                        <input type="radio" id="paypal" onclick="javascript:yesnoCheck();" name="payment_method" value="paypal">
+                                        <label for="paypal">
+                                            <img src="{{asset('assets/images/paypal.png')}}" style="width: 50%" alt="">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-paymentfeilds" id="card-feilds" style="display: none">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Name on Card
+                                            <abbr class="required" title="required">*</abbr>
+                                        </label>
+                                        <input type="text" name="card_name" class="form-control" placeholder="Name on Card" required />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Card Number
+                                            <abbr class="required" title="required">*</abbr></label>
+                                        <input type="text" name="card_number" class="form-control" placeholder="Card Number" required />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>CVV
+                                            <abbr class="required" title="required">*</abbr>
+                                        </label>
+                                        <input type="text" name="cvv" class="form-control card-cvc" placeholder="CVV" required />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Expiration Date
+                                            <abbr class="required" title="required">*</abbr></label>
+                                        <input type="text" name="expiration_date" class="form-control" placeholder="Expiration Date" required />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <label>First name
                                         <abbr class="required" title="required">*</abbr>
                                     </label>
@@ -112,7 +169,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label>Country Name
                                 <abbr class="required" title="required">*</abbr></label>
@@ -243,14 +299,14 @@
                             </tfoot>
                         </table>
 
-                        <div class="payment-methods">
+                        {{-- <div class="payment-methods">
                             <h4 class="">Payment methods</h4>
                             <div class="info-box p-0">
                                 <p>
                                     <a href="https://www.paypal.com/in/webapps/mpp/paypal-popup" title="How PayPal Works" onclick="javascript:window.open('https://www.paypal.com/in/webapps/mpp/paypal-popup','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"><img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-200px.png" border="0" alt="PayPal Logo"></a>
                                 </p>
                             </div>
-                        </div>
+                        </div> --}}
 
                 <button type="submit" class="btn btn-dark btn-place-order" >
                     Place order
@@ -264,5 +320,17 @@
     <!-- End .row -->
 </div>
 <!-- End .container -->
+
+@endsection
+@section('js')
+<script>
+     function yesnoCheck() {
+        if (document.getElementById('stripe').checked) {
+           document.getElementById('card-feilds').style.display = 'block';
+        } else {
+           document.getElementById('card-feilds').style.display = 'none';
+        }
+    }
+</script>
 
 @endsection

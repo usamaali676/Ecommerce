@@ -50,6 +50,14 @@
                             <label for="inputPassword5" class="form-label">Price</label>
                             <input type="text" name="price" class="form-control" id="inputPassword5">
                         </div>
+                        <div class="col-md-6">
+                            <label for="inputEmail5" class="form-label">Storage</label>
+                            <input type="text" name="storage" class="form-control" id="inputEmail5">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputPassword5" class="form-label">Color</label>
+                            <input type="text" name="color" class="form-control" id="inputPassword5">
+                        </div>
                         <div class="col-12">
                             <label for="image" class="form-label">Image (Dimensions 300 x 300)</label>
                             <input class="form-control" name="images[]" type="file" id="fileToUpload" multiple="multiple">                        </div>
@@ -57,9 +65,13 @@
                             <label for="description" class="form-label">Description</label>
                             <textarea name="description" class="ckeditor form-control" id="editor" ></textarea>
                         </div>
-                        <div class="col-12">
+                        <div class="col-6">
                             <label for="qty" class="form-label">Quantity</label>
                             <input type="number" class="form-control" name="qty">
+                        </div>
+                        <div class="col-6">
+                            <label for="qty" class="form-label">Priority</label>
+                            <input type="number" class="form-control" name="priority">
                         </div>
                         <div class="col-12" style="margin: 25px 0px;">
                             {{-- <p>Status</p> --}}

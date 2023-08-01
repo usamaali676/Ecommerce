@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BotManController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerDashboard;
@@ -30,6 +31,9 @@ use Illuminate\Support\Facades\Auth;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+
+
+    Route::match(['get', 'post'], '/botman', [BotManController::class, 'handle']);
 
     Route::controller(DashboardController::class)->group(function () {
         Route::get('/', 'index')->name('fronthome');

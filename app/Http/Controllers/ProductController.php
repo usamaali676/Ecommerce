@@ -64,7 +64,10 @@ class ProductController extends Controller
         $product->slug = preg_replace('/\s+/', '-', $request->slug);
         $product->description = $request->description;
         $product->price = $request->price;
+        $product->storage = $request->storage;
+        $product->color = $request->color;
         $product->qty = $request->qty;
+        $product->priority = $request->priority;
         $product->status = $request->status ? 1 : 0 ?? 0;
         $product->save();
 
@@ -168,6 +171,9 @@ class ProductController extends Controller
         $input['price'] = $request->price;
         $input['description'] = $request->description;
         $input['qty'] = $request->qty;
+        $input['priority'] = $request->priority;
+        $input['storage'] = $request->storage;
+        $input['color'] = $request->color;
         $input['status'] = $request->status ? 1 : 0 ?? 0;
         $product->update($input);
         if($request->hasFile('images')){

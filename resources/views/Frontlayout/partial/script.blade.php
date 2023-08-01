@@ -5,6 +5,7 @@
     <script src="{{asset('assets/js/optional/imagesloaded.pkgd.min.js')}}"></script>
     <script src="{{asset('assets/js/optional/isotope.pkgd.min.js')}}"></script>
     <script src="{{asset('assets/js/plugins.min.js')}}"></script>
+    <script src='https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js'></script>
     <script src="{{asset('assets/js/jquery.appear.min.js')}}"></script>
     @include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"])
 
@@ -39,3 +40,10 @@
             })
         })
     </script>
+
+<script>
+    var botmanWidget = {
+        aboutText: 'Write Something',
+        introMessage: "✋ Hi! I'm form Insha Trading!",
+    };
+</script>

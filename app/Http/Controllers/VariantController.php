@@ -45,6 +45,7 @@ class VariantController extends Controller
         $variant->type = $request->type;
         $variant->price = $request->price;
         $variant->stock = $request->stock;
+        $variant->color = $request->color;
         $variant->save();
 
         if($request->type == "Color")
@@ -100,6 +101,7 @@ class VariantController extends Controller
         $input['type'] = $request->type;
         $input['price'] = $request->price;
         $input['stock'] = $request->stock;
+        $input['color'] = $request->color;
         $variant->update($input);
         if($request->type == "Color")
         {

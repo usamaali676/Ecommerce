@@ -3,6 +3,14 @@
     <link rel="stylesheet" href="{{ asset('assets/css/sweetalert.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css" integrity="sha512-wR4oNhLBHf7smjy0K4oqzdWumd+r5/+6QO/vDda76MW5iug4PT7v86FoEkySIJft3XA0Ae6axhIvHrqwm793Nw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css" integrity="sha512-6lLUdeQ5uheMFbWm3CP271l14RsX1xtx+J5x2yeIDkkiBpeVTNhTqijME7GgRKKi6hCqovwCoBTlRBEC20M8Mg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"> --}}
+    {{-- <link rel='stylesheet' href="https://cdn.jsdelivr.net/npm/xzoom@1.0.14/src/xzoom.css">
+    <link rel='stylesheet' href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"> --}}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/slick-lightbox/0.2.12/slick-lightbox.css" rel="stylesheet" />
+
+    <style>
+
+    </style>
     @endsection
 
 @section('content')
@@ -11,6 +19,8 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('fronthome') }}"><i class="icon-home"></i></a></li>
                 <li class="breadcrumb-item"><a href="#">Products</a></li>
+                <li class="breadcrumb-item"><a href="#">{{$product->category->name}}</a></li>
+                <li class="breadcrumb-item"><a href="#">{{$product->name}}</a></li>
             </ol>
         </nav>
         <div class="product-single-container product-single-default">
@@ -29,16 +39,26 @@
                         </div>
                         <div id="prod_img">
                             <div class="your-class" >
+
                                 @foreach ($product->prodimage as $img)
-                                        <div class="product-item" >
+                                    {{-- <div id="lens"></div> --}}
+                                        <div class="product-item" style="width: 300px">
                                             <img class="product-single-image"
                                                 src="{{ asset('images/products') }}/{{ $img->image }}"
                                                 data-zoom-image="{{ asset('images/products') }}/{{ $img->image }}"
                                                 width="468" height="468" alt="product" />
                                         </div>
+                                        {{-- <div class="xzoom-container">
+                                            <a data-fancybox-trigger="gallery" href="javascript:;">
+                                                <img class="xzoom" id="xzoom-default" src="{{ asset('images/products') }}/{{ $img->image }}"
+                                                    xoriginal="{{ asset('images/products') }}/{{ $img->image }}" />
+                                            </a>
+                                        </div> --}}
+
                                     @endforeach
                             </div>
                         </div>
+                        {{-- <div id="result"></div> --}}
 
 
                     <div id="dotsilck" >
@@ -83,11 +103,10 @@
                 <!-- End .product-single-gallery -->
 
                 <div class="col-lg-7 col-md-6 product-single-details">
-                    <h1 class="product-title">{{ $product->name }}</h1>
+                    <h1 class="product-title">{{ $product->name }} <span id="storagename"></span>  <span id="colorname"></span> </h1>
                     <div class="d-flex">
-                        <span>Purple</span>&nbsp;
-                        <span> - 1TB</span>&nbsp;
-                        <span> - New</span>
+                        {{-- <span>Purple</span>&nbsp;
+                        <span> - 1TB</span>&nbsp; --}}
                     </div>
 
                     @php
@@ -125,6 +144,44 @@
                     </div>
                     <!-- End .price-box -->
 
+                    <div class="product-action">
+                        {{-- <div class="price-box product-filtered-price">
+                            <del class="old-price"><span>$286.00</span></del>
+                            <span class="product-price">$245.00</span>
+                        </div> --}}
+
+                        <div class="product-single-qty">
+                            <input id="prod_id" type="hidden" name="prod_id" value="{{ $product->id }}">
+                            <input id="qty" class="horizontal-quantity form-control" name="qty" type="text">
+                        </div>
+                        <!-- End .product-single-qty -->
+
+                        <a type="submit" href="javascript:;" class="btn btn-dark add-cart mr-2 addToCartButton"
+                            title="Add to Cart">Add to
+                            Cart</a>
+
+                        {{-- <a href="{{route('cart')}}" class="btn btn-gray view-cart d-none">View cart</a> --}}
+                    </div>
+                    <!-- End .product-action -->
+
+
+
+
+                @if (count($storage_variant) > 0)
+                <h5 style="margin: 10px 0px;">Storage:</h5>
+            @endif
+            <div class="d-flex">
+                @foreach ($storage_variant as $storage)
+                    <a href="javascript:void(0)" class="storagevariants" id="{{ $storage->id }}">
+                        <input type="hidden" name="storage_id" value="" id="storage_id">
+                        <div class="storage">
+                            <p>{{ $storage->name }}</p>
+                        </div>
+                    </a>
+                @endforeach
+            </div>
+
+
                     @if (count($color_variant) > 0)
                         <h5 style="margin-bottom: 5px;">Color:</h5>
                     @endif
@@ -135,35 +192,23 @@
                             @foreach ($color_variant as $color)
                                 <a href="javascript:void(0)" class="variants color_id " id="{{ $color->id }}">
                                     <input type="hidden" name="color_id" value="" id="color_id">
-                                    <div class="variant-box colvariant-{{$color->id}} border">
-                                        @foreach ($color->variantimage as $img)
+                                    <div class="variant-box colvariant-{{$color->id}} border" style="background-color: {{$color->color}}">
+
+                                         {{-- @foreach ($color->variantimage as $img)
                                             @if ($loop->first)
                                                 <img src="{{ asset('images/products') }}/{{ $img->image }}" alt=""
                                                     style="width: 70px
                                 ">
                                             @break
                                         @endif
-                                    @endforeach
-                                    <p>{{ $color->name }}</p>
+                                    @endforeach --}}
+                                    {{-- <p>{{ $color->name }}</p> --}}
                                 </div>
                             </a>
                         @endforeach
                     {{-- </select> --}}
                 </div>
 
-                @if (count($storage_variant) > 0)
-                    <h5 style="margin: 10px 0px;">Storage:</h5>
-                @endif
-                <div class="d-flex">
-                    @foreach ($storage_variant as $storage)
-                        <a href="javascript:void(0)" class="storagevariants" id="{{ $storage->id }}">
-                            <input type="hidden" name="storage_id" value="" id="storage_id">
-                            <div class="storage">
-                                <p>{{ $storage->name }}</p>
-                            </div>
-                        </a>
-                    @endforeach
-                </div>
 
                 {{-- <div class="product-desc">
                     <p>
@@ -173,29 +218,21 @@
                 <!-- End .product-desc -->
 
 
-                <div class="product-action">
-                    {{-- <div class="price-box product-filtered-price">
-                        <del class="old-price"><span>$286.00</span></del>
-                        <span class="product-price">$245.00</span>
-                    </div> --}}
 
-                    <div class="product-single-qty">
-                        <input id="prod_id" type="hidden" name="prod_id" value="{{ $product->id }}">
-                        <input id="qty" class="horizontal-quantity form-control" name="qty" type="text">
-                    </div>
-                    <!-- End .product-single-qty -->
-
-                    <a type="submit" href="javascript:;" class="btn btn-dark add-cart mr-2 addToCartButton"
-                        title="Add to Cart">Add to
-                        Cart</a>
-
-                    {{-- <a href="{{route('cart')}}" class="btn btn-gray view-cart d-none">View cart</a> --}}
-                </div>
-                <!-- End .product-action -->
 
                 <hr class="divider mb-0 mt-0">
+                <div class="prod-feature">
+                    <h2>Advantages of buying on Insha</h2>
+                    <ul>
+                        <li class="d-flex" ><img src="{{asset('assets/images/icon/Vector.svg')}}" alt=""> &nbsp; &nbsp; Insha connects you to sellers</li>
+                        <li class="d-flex" ><img src="{{asset('assets/images/icon/Vector2.svg')}}" alt=""> &nbsp; &nbsp; 12-month warranty + 30-day return</li>
+                        <li class="d-flex" ><img src="{{asset('assets/images/icon/Vector3.svg')}}" alt=""> &nbsp; &nbsp; Free 2-5 day delivery</li>
+                        <li class="d-flex" ><img src="{{asset('assets/images/icon/Vector4.svg')}}" alt=""> &nbsp; &nbsp; 80%+ battery health on all devices</li>
+                        <li class="d-flex" ><img src="{{asset('assets/images/icon/Vector5.svg')}}" alt=""> &nbsp; &nbsp; You protect 5 trees buying this product</li>
+                    </ul>
+                </div>
 
-                <div class="product-single-share mb-2">
+                {{-- <div class="product-single-share mb-2">
                     <label class="sr-only">Share:</label>
 
                     <div class="social-icons mr-2">
@@ -213,7 +250,7 @@
                     <!-- End .social-icons -->
 
 
-                </div>
+                </div> --}}
                 <!-- End .product single-share -->
             </div>
             <!-- End .product-single-details -->
@@ -446,9 +483,16 @@
 @endsection
 @section('js')
 <script src="{{ asset('assets/js/sweetalert.all.js') }}"></script>
-<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-lightbox/0.2.12/slick-lightbox.min.js"></script>
+
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> --}}
+<script src='https://cdn.jsdelivr.net/npm/xzoom@1.0.14/dist/xzoom.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js'></script>
+{{-- <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script> --}}
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
 <script type="text/javascript">
     $(document).ready(function(){
       $('.your-class').slick({
@@ -485,6 +529,12 @@
             // instead of a settings object
         ]
       });
+      var sLightbox = $('.your-class');
+        sLightbox.slickLightbox({
+            src: 'src',
+            itemSelector: '.product-item img',
+            caption: 'text'
+        });
       $('.silck-dots').slick({
         slidesToShow: 3,
         slidesToScroll: 1,
@@ -504,8 +554,8 @@
             var color_id = $("#color_id").val();
             var storage_id = $("#storage_id").val();
 
-            alert(color_id);
-            alert(storage_id);
+            // alert(color_id);
+            // alert(storage_id);
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -608,14 +658,20 @@
                         $("#color_id").val(colorval);
                         // var testval = $("#color_id").val();
                         // console.log(testval);
+
+                        var colorname = variant.name;
+                        $("#colorname").html(colorname);
                     }
                     if(variant.type == "Storage"){
                         var storageval = variant.id;
                         $("#storage_id").val(storageval);
+
+
                         // var stestval = $("#storage_id").val();
                         // console.log(stestval);
                     }
                     // console.log(variant);
+
                     $('#prod-price').html("£" + variant.price);
                     var productImages = variant.variantimage;
 
@@ -645,6 +701,12 @@
                                 slidesToScroll: 1,
                                 asNavFor: silk_dot,
                                 loop: false,
+                            });
+                            var sLightbox = $('.your-class');
+                             sLightbox.slickLightbox({
+                                src: 'src',
+                                itemSelector: '.product-item img',
+                                caption: 'text'
                             });
                             $(silk_dot).slick({
                                 slidesToShow: 3,
@@ -786,6 +848,8 @@
                     if(variant.type == "Storage"){
                         var storageval = variant.id;
                         $("#storage_id").val(storageval);
+                        var storagename = variant.name;
+                        $("#storagename").html(storagename);
                         // var stestval = $("#storage_id").val();
                         // console.log(stestval);
                     }
@@ -859,4 +923,197 @@
         })
     })
 </script>
+
+<script>
+// Mousewheel changes amount of zoom
+
+$(document).ready(function() {
+  // You can try out different effects here
+  $(".xzoom, .xzoom-gallery").xzoom({
+    zoomWidth: 400,
+    title: true,
+    tint: "#333",
+    Xoffset: 15
+  });
+  $(".xzoom2, .xzoom-gallery2").xzoom({
+    position: "#xzoom2-id",
+    tint: "#ffa200"
+  });
+  $(".xzoom3, .xzoom-gallery3").xzoom({
+    position: "lens",
+    lensShape: "circle",
+    sourceClass: "xzoom-hidden"
+  });
+  $(".xzoom4, .xzoom-gallery4").xzoom({ tint: "#006699", Xoffset: 15 });
+  $(".xzoom5, .xzoom-gallery5").xzoom({ tint: "#006699", Xoffset: 15 });
+
+  //Integration with hammer.js
+  var isTouchSupported = "ontouchstart" in window;
+
+  if (isTouchSupported) {
+    //If touch device
+    $(".xzoom, .xzoom2, .xzoom3, .xzoom4, .xzoom5").each(function() {
+      var xzoom = $(this).data("xzoom");
+      xzoom.eventunbind();
+    });
+
+    $(".xzoom, .xzoom2, .xzoom3").each(function() {
+      var xzoom = $(this).data("xzoom");
+      $(this)
+        .hammer()
+        .on("tap", function(event) {
+          event.pageX = event.gesture.center.pageX;
+          event.pageY = event.gesture.center.pageY;
+          var s = 1,
+            ls;
+
+          xzoom.eventmove = function(element) {
+            element.hammer().on("drag", function(event) {
+              event.pageX = event.gesture.center.pageX;
+              event.pageY = event.gesture.center.pageY;
+              xzoom.movezoom(event);
+              event.gesture.preventDefault();
+            });
+          };
+
+          xzoom.eventleave = function(element) {
+            element.hammer().on("tap", function(event) {
+              xzoom.closezoom();
+            });
+          };
+          xzoom.openzoom(event);
+        });
+    });
+
+    $(".xzoom4").each(function() {
+      var xzoom = $(this).data("xzoom");
+      $(this)
+        .hammer()
+        .on("tap", function(event) {
+          event.pageX = event.gesture.center.pageX;
+          event.pageY = event.gesture.center.pageY;
+          var s = 1,
+            ls;
+
+          xzoom.eventmove = function(element) {
+            element.hammer().on("drag", function(event) {
+              event.pageX = event.gesture.center.pageX;
+              event.pageY = event.gesture.center.pageY;
+              xzoom.movezoom(event);
+              event.gesture.preventDefault();
+            });
+          };
+
+          var counter = 0;
+          xzoom.eventclick = function(element) {
+            element.hammer().on("tap", function() {
+              counter++;
+              if (counter == 1) setTimeout(openfancy, 300);
+              event.gesture.preventDefault();
+            });
+          };
+
+          function openfancy() {
+            if (counter == 2) {
+              xzoom.closezoom();
+              $.fancybox.open(xzoom.gallery().cgallery);
+            } else {
+              xzoom.closezoom();
+            }
+            counter = 0;
+          }
+          xzoom.openzoom(event);
+        });
+    });
+
+    $(".xzoom5").each(function() {
+      var xzoom = $(this).data("xzoom");
+      $(this)
+        .hammer()
+        .on("tap", function(event) {
+          event.pageX = event.gesture.center.pageX;
+          event.pageY = event.gesture.center.pageY;
+          var s = 1,
+            ls;
+
+          xzoom.eventmove = function(element) {
+            element.hammer().on("drag", function(event) {
+              event.pageX = event.gesture.center.pageX;
+              event.pageY = event.gesture.center.pageY;
+              xzoom.movezoom(event);
+              event.gesture.preventDefault();
+            });
+          };
+
+          var counter = 0;
+          xzoom.eventclick = function(element) {
+            element.hammer().on("tap", function() {
+              counter++;
+              if (counter == 1) setTimeout(openmagnific, 300);
+              event.gesture.preventDefault();
+            });
+          };
+
+          function openmagnific() {
+            if (counter == 2) {
+              xzoom.closezoom();
+              var gallery = xzoom.gallery().cgallery;
+              var i,
+                images = new Array();
+              for (i in gallery) {
+                images[i] = { src: gallery[i] };
+              }
+              $.magnificPopup.open({
+                items: images,
+                type: "image",
+                gallery: { enabled: true }
+              });
+            } else {
+              xzoom.closezoom();
+            }
+            counter = 0;
+          }
+          xzoom.openzoom(event);
+        });
+    });
+  } else {
+    //If not touch device
+
+    //Integration with fancybox plugin
+    $("#xzoom-fancy").bind("click", function(event) {
+      var xzoom = $(this).data("xzoom");
+      xzoom.closezoom();
+      $.fancybox.open(xzoom.gallery().cgallery, {
+        padding: 0,
+        helpers: { overlay: { locked: false } }
+      });
+      event.preventDefault();
+    });
+
+    //Integration with magnific popup plugin
+    $("#xzoom-magnific").bind("click", function(event) {
+      var xzoom = $(this).data("xzoom");
+      xzoom.closezoom();
+      var gallery = xzoom.gallery().cgallery;
+      var i,
+        images = new Array();
+      for (i in gallery) {
+        images[i] = { src: gallery[i] };
+      }
+      $.magnificPopup.open({
+        items: images,
+        type: "image",
+        gallery: { enabled: true }
+      });
+      event.preventDefault();
+    });
+  }
+
+  // Fancybox
+  $('[data-fancybox="gallery"]').fancybox({
+    // Options will go here
+  });
+});
+</script>
+
 @endsection
